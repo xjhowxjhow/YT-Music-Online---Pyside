@@ -1,0 +1,1 @@
+pyside2-rcc qrc.qrc -o sources.py

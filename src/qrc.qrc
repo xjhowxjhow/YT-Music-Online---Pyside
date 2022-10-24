@@ -1,0 +1,22 @@
+<RCC>
+  <qresource prefix="back">
+    <file>image/back.jpg</file>
+    <file>image/back2.jpg</file>
+  </qresource>
+  <qresource prefix="btn">
+    <file>image/togle.png</file>
+    <file>image/back.png</file>
+    <file>image/next.png</file>
+    <file>image/categori.png</file>
+    <file>image/mix.png</file>
+    <file>image/menu-busca.png</file>
+    <file>image/notify.png</file>
+    <file>image/play_list.png</file>
+    <file>image/settings.png</file>
+    <file>image/vol.png</file>
+    <file>image/pause.png</file>
+    <file>image/play.png</file>
+    <file>image/resume.png</file>
+    <file>image/stop.png</file>
+  </qresource>
+</RCC>
