@@ -136,7 +136,7 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         
         
 if __name__ == '__main__':
-    # os.environ['QT_MULTIMEDIA_PREFERRED_PLUGINS'] = 'windowsmediafoundation'
+    os.environ['QT_MULTIMEDIA_PREFERRED_PLUGINS'] = 'windowsmediafoundation'
     app = QtWidgets.QApplication(sys.argv)
     mainWin = MainWindow()
     ret = app.exec_()

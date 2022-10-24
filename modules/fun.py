@@ -185,7 +185,7 @@ class funcoes(Ui_Form):
         diretorio =  os.path.dirname(os.path.realpath(__file__))
         
         folder = diretorio + '\downloads\\'
-        outtmpl = folder + '\%(title)s.%(ext)s'
+        outtmpl = folder + '\%(title)s'+'.mp3'
         ydl_opts = {
             #legendas
             'writesubtitles': True,
@@ -201,7 +201,6 @@ class funcoes(Ui_Form):
             'outtmpl': outtmpl,
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
                 'preferredquality': '192',
 
             }],
@@ -217,6 +216,7 @@ class funcoes(Ui_Form):
             #download and save file in folder
             try:
                 ydl.download([url])
+                
                 
             except:
                 pass
@@ -244,7 +244,7 @@ class funcoes(Ui_Form):
             self.title_page2.setText(video_title)
             #inverter barra
             video_title = video_title.replace('/', '\\')
-            video_title = video_title + '.webm'
+            video_title = video_title + '.mp3'
             print(video_title)
             
             #play file \
