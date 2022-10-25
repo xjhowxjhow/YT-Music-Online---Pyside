@@ -1,5 +1,7 @@
 from yt_dlp import *
 import os
+import psutil
+import sys
 from PySide2.QtCore import *
 from PySide2 import QtWidgets
 from PySide2 import QtCore
@@ -40,7 +42,16 @@ class Player(QMediaPlayer):
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.progress)
         self.timer.start()
+    def stop(self):
+        print('stop comand')
+        self.position = 0
+        self.duration = 0
+        self.file = QMediaContent()
+        self.state = 0
+        self.timer.stop()
+        return super().stop()
 
+       
     def position_changed(self, position):
         self.position = position
         
@@ -89,41 +100,20 @@ class funcoes(Ui_Form):
             for i in range (cont): 
                 if self.tableWidget.rowCount() >= 0:
                     self.tableWidget.removeRow(self.tableWidget.rowCount()-1)
-            # print(i)
-            # print(i['id'])
-            # print(i['title'])
-            # print(i['duration'])
-            # print(i['viewCount']['short'])
-            # print(i['thumbnails'][0]['url'])
-            # print(i['channel']['name'])
-            # print(i['channel']['link'])
-            # print(i['channel']['id'])
-            # print(i['link'])
-            # print(i['publishedTime'])
-            # print(i['descriptionSnippet'])
-            # print('----------------------------------------')
+
+
         videosSearch = VideosSearch(search+" vevo", limit = 30)
         videosResult = videosSearch.result()
-        index = 0
     
         for video in videosResult['result']:
             print(video['title'], video['link'], video['duration'])
 
-            
             rowPosition = self.tableWidget.rowCount()
             self.tableWidget.insertRow(rowPosition)
-            #0ulr
-            #1thumb
-            #2title
-            #3duration
-            #4views
-            #5data
-            #button play
-            
+            #link
             self.tableWidget.setItem(rowPosition , 0, QTableWidgetItem(video['link']))
             
-            
-            
+
             #thumb
             self.pushButton_pago = QPushButton()
             self.pushButton_pago.setObjectName("thumbnaill")
@@ -135,41 +125,23 @@ class funcoes(Ui_Form):
             image = QtGui.QImage()
             image.loadFromData(data)
             pixmap = QtGui.QPixmap(image)
-            #set background image in label
-            #remove pixmap
-      
-            
-
             
             self.video_label.setScaledContents(True)
             self.pushButton_pago.setIconSize(QtCore.QSize(200, 200))
             self.pushButton_pago.setIcon(QIcon(pixmap))
             #set background image
             self.tableWidget.setCellWidget(rowPosition, 1, self.pushButton_pago)
-            #editable off
-            
-            
-            
-            
-            
+
+            #title
             self.tableWidget.setItem(rowPosition , 2, QTableWidgetItem(video['title']))
             #non editable
             self.tableWidget.item(rowPosition, 2).setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)
-            
+            #DUration
             self.tableWidget.setItem(rowPosition , 3, QTableWidgetItem(video['duration']))
-            
-            
+            #view
             self.tableWidget.setItem(rowPosition , 4, QTableWidgetItem(video['viewCount']['short']))
-            
-            
+            #tempo publicado
             self.tableWidget.setItem(rowPosition , 5, QTableWidgetItem(video['publishedTime']))
-            
-            
-            #PLAY BUTTON
-            # self.play_23 = QPushButton("Play")
-            # self.tableWidget.setCellWidget(rowPosition , 6, QTableWidgetItem(self.play_23))
-            index += 1
-        
 
         #block editables
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -187,22 +159,11 @@ class funcoes(Ui_Form):
         folder = diretorio + '\downloads\\'
         outtmpl = folder + '\%(title)s'+'.mp3'
         ydl_opts = {
-            #legendas
-            'writesubtitles': True,
-            'subtitleslangs': ['pt','en'],
-            'subtitlesformat': 'srt',
-            
-            
-            
-
-            # audio
-
             'format': 'bestaudio/best',
             'outtmpl': outtmpl,
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredquality': '192',
-
             }],
             
 
@@ -263,30 +224,30 @@ class funcoes(Ui_Form):
             
                 self.player.stop()
                 
+                
                 var_1= self.clok_resta_
                 var_2= self.clok_start
-                while var_1.text() and var_2.text() == "00:00:00":
-                    var_1.setText("00:00:00")
-                    var_2.setText("00:00:00")
-                    self.progress_music.setValue(0)
+             
+                var_1.setText("00:00:00")
+                var_2.setText("00:00:00")
+                self.progress_music.setValue(0)
                 
 
-                try:
-                    if CURRENT_PATCH:
-                        url_none= ''
-                        self.player.setMedia(QMediaContent(QUrl.fromLocalFile(url_none)))
-                        os.remove(CURRENT_PATCH)
-                        print("removido")
-                    else:
-                        print("nao tem nada pra remover")
-                        pass
-                except:
-                    print("nao tem nada pra remover")
+      
+                if  CURRENT_PATCH == '' or CURRENT_PATCH == None:
                     pass
+                else:
+                    
+                    self.player.setMedia(QMediaContent())
+                    #remove file in player
+                    
+                    
+
                 STATUS_PLAYER = False
                 
             CURRENT_PATCH = patch
             print(CURRENT_PATCH,"novo patch")
+            funcoes._Delete_Files(self)
             self.player.setMedia(QMediaContent(QUrl.fromLocalFile(patch)))
             self.player.play()
 
@@ -353,15 +314,12 @@ class funcoes(Ui_Form):
                     
                     #Progress bar
 
-            
-                        
-                    #unifica minutos e segundos
                    
                     
                     if time_left == '0:00:00':
                         self.player.stop()
-                        url_none = ''
-                        self.player.setMedia(QMediaContent(QUrl.fromLocalFile(url_none)))
+                        
+                        self.player.setMedia(QMediaContent())
                         STATUS_PLAYER = False
                         
                         #delete file
@@ -405,16 +363,17 @@ class funcoes(Ui_Form):
         self.clok_resta_.setText('00:00:00')
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
-        url_none = ''
-        self.player.setMedia(QMediaContent(QUrl.fromLocalFile(url_none)))
+        time.sleep(0.5)
+        self.player.setMedia(QMediaContent(None))
+        #remove file in player
+
         global STATUS_PLAYER
         STATUS_PLAYER = False
-        global CURRENT_PATCH
-        os.remove(CURRENT_PATCH)
-        #stop thread player
+        funcoes._Delete_Files(self)
 
         return True
-        
+
+
     def Volume(self,value):
         self.player.setVolume(value)
 
@@ -426,4 +385,21 @@ class funcoes(Ui_Form):
         self.progress_music.setValue(PORCERNT)
         
         
+    def _Delete_Files(self):
         
+        def thead(self):
+            _folder_ = os.path.dirname(os.path.realpath(__file__)) + '\downloads\\'
+    
+            for file in os.listdir(_folder_):
+                if file.endswith(".mp3"):
+                    if _folder_ + file == CURRENT_PATCH:
+                        pass
+                    else:
+                        try:
+                            os.remove(_folder_ + file)
+                        except Exception as e:
+                            pass
+                else:
+                    pass
+        thread = threading.Thread(target=thead , args=(self,) ,name='thread_delet',daemon=True)
+        thread.start()
