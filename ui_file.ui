@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1284</width>
+    <width>1005</width>
     <height>748</height>
    </rect>
   </property>
@@ -1419,7 +1419,7 @@ border-radius:5px;</string>
                                <number>0</number>
                               </property>
                               <property name="rightMargin">
-                               <number>0</number>
+                               <number>10</number>
                               </property>
                               <property name="bottomMargin">
                                <number>0</number>
@@ -1434,7 +1434,7 @@ border-radius:5px;</string>
                                 </property>
                                 <property name="maximumSize">
                                  <size>
-                                  <width>16777215</width>
+                                  <width>50</width>
                                   <height>50</height>
                                  </size>
                                 </property>
@@ -1514,7 +1514,7 @@ border-radius:0px;</string>
                                  <enum>Qt::Horizontal</enum>
                                 </property>
                                 <property name="sizeType">
-                                 <enum>QSizePolicy::Fixed</enum>
+                                 <enum>QSizePolicy::Maximum</enum>
                                 </property>
                                 <property name="sizeHint" stdset="0">
                                  <size>
@@ -1525,64 +1525,108 @@ border-radius:0px;</string>
                                </spacer>
                               </item>
                               <item>
-                               <widget class="QTextEdit" name="textEdit">
-                                <property name="maximumSize">
-                                 <size>
-                                  <width>16777215</width>
-                                  <height>50</height>
-                                 </size>
-                                </property>
-                                <property name="font">
-                                 <font>
-                                  <family>Bahnschrift Light SemiCondensed</family>
-                                  <pointsize>12</pointsize>
-                                 </font>
-                                </property>
-                                <property name="styleSheet">
-                                 <string notr="true">border: 1px solid rgba(0, 0, 0,70);
-background-color: rgba(0, 0, 0,50);
-</string>
-                                </property>
-                                <property name="lineWrapMode">
-                                 <enum>QTextEdit::WidgetWidth</enum>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QPushButton" name="btn_procurar">
+                               <widget class="QFrame" name="group_frame_seachr">
                                 <property name="minimumSize">
                                  <size>
-                                  <width>100</width>
+                                  <width>0</width>
                                   <height>0</height>
                                  </size>
                                 </property>
                                 <property name="maximumSize">
                                  <size>
-                                  <width>16777215</width>
-                                  <height>50</height>
+                                  <width>600</width>
+                                  <height>16777215</height>
                                  </size>
                                 </property>
-                                <property name="font">
-                                 <font>
-                                  <family>Bahnschrift Light SemiCondensed</family>
-                                  <pointsize>13</pointsize>
-                                 </font>
-                                </property>
                                 <property name="styleSheet">
-                                 <string notr="true">
+                                 <string notr="true">background-color: rgba(0, 0, 0,50);
+border-radius:10px;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::StyledPanel</enum>
+                                </property>
+                                <property name="frameShadow">
+                                 <enum>QFrame::Raised</enum>
+                                </property>
+                                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                                 <property name="spacing">
+                                  <number>0</number>
+                                 </property>
+                                 <property name="leftMargin">
+                                  <number>0</number>
+                                 </property>
+                                 <property name="topMargin">
+                                  <number>0</number>
+                                 </property>
+                                 <property name="rightMargin">
+                                  <number>0</number>
+                                 </property>
+                                 <property name="bottomMargin">
+                                  <number>0</number>
+                                 </property>
+                                 <item>
+                                  <widget class="QLineEdit" name="lineEdit">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>0</width>
+                                     <height>40</height>
+                                    </size>
+                                   </property>
+                                   <property name="font">
+                                    <font>
+                                     <family>Bahnschrift SemiLight Condensed</family>
+                                     <pointsize>15</pointsize>
+                                    </font>
+                                   </property>
+                                   <property name="styleSheet">
+                                    <string notr="true">border-bottom-left-radius:10;
+border-bottom-right-radius:0;
+border-top-left-radius:10;
+border-top-right-radius:0;</string>
+                                   </property>
+                                   <property name="alignment">
+                                    <set>Qt::AlignCenter</set>
+                                   </property>
+                                   <property name="placeholderText">
+                                    <string>Busque sua musica aqui</string>
+                                   </property>
+                                   <property name="clearButtonEnabled">
+                                    <bool>true</bool>
+                                   </property>
+                                  </widget>
+                                 </item>
+                                 <item>
+                                  <widget class="QPushButton" name="btn_procurar">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>50</width>
+                                     <height>0</height>
+                                    </size>
+                                   </property>
+                                   <property name="maximumSize">
+                                    <size>
+                                     <width>16777215</width>
+                                     <height>50</height>
+                                    </size>
+                                   </property>
+                                   <property name="font">
+                                    <font>
+                                     <family>Bahnschrift Light SemiCondensed</family>
+                                     <pointsize>13</pointsize>
+                                    </font>
+                                   </property>
+                                   <property name="styleSheet">
+                                    <string notr="true">
 
 QPushButton{
 	
-
-	border-radius:10px;
-
-
-
-	
-background-color: rgba(0, 0, 0,50);
+border-bottom-left-radius:0;
+border-bottom-right-radius1:0;
+border-top-left-radius:0;
+border-top-right-radius:10;
 
 border: 1px solid rgba(255,255,255,30);
-border-radius:7px;
+
 }
 
 QPushButton:hover{
@@ -1597,10 +1641,17 @@ QPushButton:pressed{
 background-color:rgba(255,255,255,70);
 
 }</string>
-                                </property>
-                                <property name="text">
-                                 <string>Procurar</string>
-                                </property>
+                                   </property>
+                                   <property name="text">
+                                    <string/>
+                                   </property>
+                                   <property name="icon">
+                                    <iconset resource="src/qrc.qrc">
+                                     <normaloff>:/btn/image/pesquisar.png</normaloff>:/btn/image/pesquisar.png</iconset>
+                                   </property>
+                                  </widget>
+                                 </item>
+                                </layout>
                                </widget>
                               </item>
                              </layout>

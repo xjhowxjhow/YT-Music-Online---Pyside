@@ -49,7 +49,7 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         self.stop_music.installEventFilter(self)
         self.pause_music.installEventFilter(self)
         self.control_vol.installEventFilter(self)
-        self.textEdit.installEventFilter(self)
+        self.lineEdit.installEventFilter(self)
         self.back_content.installEventFilter(self)
         self.back_buscar.installEventFilter(self)
         #COLUNA URL
@@ -83,9 +83,9 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
                 funcoes.search_and_play(self,url)
             return True
         #EVENTS AP
-        if obj == self.textEdit and event.type() == QtCore.QEvent.KeyPress:
-            if event.key() == QtCore.Qt.Key_Return and self.textEdit.hasFocus():
-                text_search = self.textEdit.toPlainText()
+        if obj == self.lineEdit and event.type() == QtCore.QEvent.KeyPress:
+            if event.key() == QtCore.Qt.Key_Return and self.lineEdit.hasFocus():
+                text_search = self.lineEdit.text()
                 if text_search == "":
                     pass
                     return True
@@ -97,7 +97,7 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
             
             
         if obj == self.btn_procurar and event.type() == QtCore.QEvent.MouseButtonPress:
-            text_search = self.textEdit.toPlainText()
+            text_search = self.lineEdit.text()
             
             if text_search == "":
                 pass

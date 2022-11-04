@@ -4,6 +4,7 @@
     <file>image/back2.jpg</file>
   </qresource>
   <qresource prefix="btn">
+    <file>image/pesquisar.png</file>
     <file>image/togle.png</file>
     <file>image/back.png</file>
     <file>image/next.png</file>

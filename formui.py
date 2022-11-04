@@ -9,7 +9,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(1284, 748)
+        Form.resize(1005, 748)
         Form.setStyleSheet(u"")
         self.horizontalLayout = QHBoxLayout(Form)
         self.horizontalLayout.setSpacing(0)
@@ -723,11 +723,11 @@ class Ui_Form(object):
         self.horizontalLayout_14 = QHBoxLayout(self.search_frame)
         self.horizontalLayout_14.setSpacing(10)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_14.setContentsMargins(0, 0, 10, 0)
         self.back_content = QPushButton(self.search_frame)
         self.back_content.setObjectName(u"back_content")
         self.back_content.setMinimumSize(QSize(50, 0))
-        self.back_content.setMaximumSize(QSize(16777215, 50))
+        self.back_content.setMaximumSize(QSize(50, 50))
         self.back_content.setStyleSheet(u"\n"
 "\n"
 "QPushButton{\n"
@@ -780,27 +780,41 @@ class Ui_Form(object):
 
         self.horizontalLayout_14.addWidget(self.label_5)
 
-        self.horizontalSpacer_6 = QSpacerItem(100, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+        self.horizontalSpacer_6 = QSpacerItem(100, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
 
         self.horizontalLayout_14.addItem(self.horizontalSpacer_6)
 
-        self.textEdit = QTextEdit(self.search_frame)
-        self.textEdit.setObjectName(u"textEdit")
-        self.textEdit.setMaximumSize(QSize(16777215, 50))
+        self.group_frame_seachr = QFrame(self.search_frame)
+        self.group_frame_seachr.setObjectName(u"group_frame_seachr")
+        self.group_frame_seachr.setMinimumSize(QSize(0, 0))
+        self.group_frame_seachr.setMaximumSize(QSize(600, 16777215))
+        self.group_frame_seachr.setStyleSheet(u"background-color: rgba(0, 0, 0,50);\n"
+"border-radius:10px;")
+        self.group_frame_seachr.setFrameShape(QFrame.StyledPanel)
+        self.group_frame_seachr.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_11 = QHBoxLayout(self.group_frame_seachr)
+        self.horizontalLayout_11.setSpacing(0)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.lineEdit = QLineEdit(self.group_frame_seachr)
+        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit.setMinimumSize(QSize(0, 40))
         font4 = QFont()
-        font4.setFamily(u"Bahnschrift Light SemiCondensed")
-        font4.setPointSize(12)
-        self.textEdit.setFont(font4)
-        self.textEdit.setStyleSheet(u"border: 1px solid rgba(0, 0, 0,70);\n"
-"background-color: rgba(0, 0, 0,50);\n"
-"")
-        self.textEdit.setLineWrapMode(QTextEdit.WidgetWidth)
+        font4.setFamily(u"Bahnschrift SemiLight Condensed")
+        font4.setPointSize(15)
+        self.lineEdit.setFont(font4)
+        self.lineEdit.setStyleSheet(u"border-bottom-left-radius:10;\n"
+"border-bottom-right-radius:0;\n"
+"border-top-left-radius:10;\n"
+"border-top-right-radius:0;")
+        self.lineEdit.setAlignment(Qt.AlignCenter)
+        self.lineEdit.setClearButtonEnabled(True)
 
-        self.horizontalLayout_14.addWidget(self.textEdit)
+        self.horizontalLayout_11.addWidget(self.lineEdit)
 
-        self.btn_procurar = QPushButton(self.search_frame)
+        self.btn_procurar = QPushButton(self.group_frame_seachr)
         self.btn_procurar.setObjectName(u"btn_procurar")
-        self.btn_procurar.setMinimumSize(QSize(100, 0))
+        self.btn_procurar.setMinimumSize(QSize(50, 0))
         self.btn_procurar.setMaximumSize(QSize(16777215, 50))
         font5 = QFont()
         font5.setFamily(u"Bahnschrift Light SemiCondensed")
@@ -810,16 +824,13 @@ class Ui_Form(object):
 "\n"
 "QPushButton{\n"
 "	\n"
-"\n"
-"	border-radius:10px;\n"
-"\n"
-"\n"
-"\n"
-"	\n"
-"background-color: rgba(0, 0, 0,50);\n"
+"border-bottom-left-radius:0;\n"
+"border-bottom-right-radius1:0;\n"
+"border-top-left-radius:0;\n"
+"border-top-right-radius:10;\n"
 "\n"
 "border: 1px solid rgba(255,255,255,30);\n"
-"border-radius:7px;\n"
+"\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
@@ -834,8 +845,14 @@ class Ui_Form(object):
 "background-color:rgba(255,255,255,70);\n"
 "\n"
 "}")
+        icon8 = QIcon()
+        icon8.addFile(u":/btn/image/pesquisar.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_procurar.setIcon(icon8)
 
-        self.horizontalLayout_14.addWidget(self.btn_procurar)
+        self.horizontalLayout_11.addWidget(self.btn_procurar)
+
+
+        self.horizontalLayout_14.addWidget(self.group_frame_seachr)
 
 
         self.verticalLayout_7.addWidget(self.search_frame)
@@ -887,7 +904,10 @@ class Ui_Form(object):
         self.boasvindas_2.setObjectName(u"boasvindas_2")
         self.boasvindas_2.setMinimumSize(QSize(50, 0))
         self.boasvindas_2.setMaximumSize(QSize(16777215, 154))
-        self.boasvindas_2.setFont(font4)
+        font6 = QFont()
+        font6.setFamily(u"Bahnschrift Light SemiCondensed")
+        font6.setPointSize(12)
+        self.boasvindas_2.setFont(font6)
         self.boasvindas_2.setStyleSheet(u"")
 
         self.verticalLayout_7.addWidget(self.boasvindas_2)
@@ -932,7 +952,7 @@ class Ui_Form(object):
         __qtablewidgetitem7 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(7, __qtablewidgetitem7)
         self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setFont(font4)
+        self.tableWidget.setFont(font6)
         self.tableWidget.setFocusPolicy(Qt.NoFocus)
         self.tableWidget.setStyleSheet(u"QWidget { color: rgb(0, 0, 0); border-radius:0px; } QHeaderView::section { background-color: rgb(53, 53, 53); border:none; width:45px; height: 50px; border-radius:0px; } QTableWidget { gridline-color: #fffff8; border-radius:0px; border-radius:0px; } QTableWidget QTableCornerButton::section { background-color: #646464; border-radius:0px; } QTableView:item { border-bottom: 0.5px solid qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 0, 0, 0), stop:0.45677 rgba(0, 0, 0, 0), stop:0.479846 rgba(255, 255, 255, 255), stop:0.50571 rgba(239, 236, 55, 0), stop:1 rgba(239, 236, 55, 0)); border-radius:0px; } QTableView::item:selected{ background-color:rgba(255, 255, 255,30); color: rgb(255, 255, 255); border-radis:10px; }\n"
 "QScrollBar:horizontal { border: 1px solid #2A2929; background: #2A2929; height: 7px; margin: 0px 21px 0 21px; } QScrollBar::handle:horizontal { background: #646464; min-width: 5px; } \n"
@@ -1071,25 +1091,25 @@ class Ui_Form(object):
 "background-color:rgba(255,255,255,70);\n"
 "\n"
 "}")
-        icon8 = QIcon()
-        icon8.addFile(u":/btn/image/back.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.back_buscar.setIcon(icon8)
+        icon9 = QIcon()
+        icon9.addFile(u":/btn/image/back.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.back_buscar.setIcon(icon9)
         self.back_buscar.setIconSize(QSize(30, 30))
 
         self.horizontalLayout_9.addWidget(self.back_buscar)
 
         self.title_page2 = QLabel(self.frame_2)
         self.title_page2.setObjectName(u"title_page2")
-        font6 = QFont()
-        font6.setFamily(u"Bahnschrift Light SemiCondensed")
-        font6.setPointSize(17)
-        font6.setBold(False)
-        font6.setItalic(False)
-        font6.setWeight(50)
-        font6.setStrikeOut(False)
-        font6.setKerning(False)
-        font6.setStyleStrategy(QFont.PreferAntialias)
-        self.title_page2.setFont(font6)
+        font7 = QFont()
+        font7.setFamily(u"Bahnschrift Light SemiCondensed")
+        font7.setPointSize(17)
+        font7.setBold(False)
+        font7.setItalic(False)
+        font7.setWeight(50)
+        font7.setStrikeOut(False)
+        font7.setKerning(False)
+        font7.setStyleStrategy(QFont.PreferAntialias)
+        self.title_page2.setFont(font7)
         self.title_page2.setScaledContents(False)
 
         self.horizontalLayout_9.addWidget(self.title_page2)
@@ -1154,7 +1174,7 @@ class Ui_Form(object):
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.clok_start = QLabel(self.progress_frame_3)
         self.clok_start.setObjectName(u"clok_start")
-        self.clok_start.setFont(font4)
+        self.clok_start.setFont(font6)
         self.clok_start.setStyleSheet(u"background-color:rgba(255,255,255,0);\n"
 "\n"
 "border:none;\n"
@@ -1191,7 +1211,7 @@ class Ui_Form(object):
 
         self.clok_resta_ = QLabel(self.progress_frame_3)
         self.clok_resta_.setObjectName(u"clok_resta_")
-        self.clok_resta_.setFont(font4)
+        self.clok_resta_.setFont(font6)
         self.clok_resta_.setStyleSheet(u"background-color:rgba(255,255,255,0);\n"
 "\n"
 "border:none;\n"
@@ -1229,7 +1249,7 @@ class Ui_Form(object):
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.label_4 = QLabel(self.text_and_vol)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font4)
+        self.label_4.setFont(font6)
         self.label_4.setStyleSheet(u"background-color:rgba(255,255,255,0);\n"
 "border-left:0px;\n"
 "border-top:0px;\n"
@@ -1309,9 +1329,9 @@ class Ui_Form(object):
 "background-color:rgba(255,255,255,120);\n"
 "\n"
 "}")
-        icon9 = QIcon()
-        icon9.addFile(u":/btn/image/play.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.play_music.setIcon(icon9)
+        icon10 = QIcon()
+        icon10.addFile(u":/btn/image/play.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.play_music.setIcon(icon10)
 
         self.horizontalLayout_8.addWidget(self.play_music)
 
@@ -1345,9 +1365,9 @@ class Ui_Form(object):
 "background-color:rgba(255,255,255,120);\n"
 "\n"
 "}")
-        icon10 = QIcon()
-        icon10.addFile(u":/btn/image/pause.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pause_music.setIcon(icon10)
+        icon11 = QIcon()
+        icon11.addFile(u":/btn/image/pause.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pause_music.setIcon(icon11)
 
         self.horizontalLayout_8.addWidget(self.pause_music)
 
@@ -1381,9 +1401,9 @@ class Ui_Form(object):
 "background-color:rgba(255,255,255,120);\n"
 "\n"
 "}")
-        icon11 = QIcon()
-        icon11.addFile(u":/btn/image/stop.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.stop_music.setIcon(icon11)
+        icon12 = QIcon()
+        icon12.addFile(u":/btn/image/stop.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.stop_music.setIcon(icon12)
 
         self.horizontalLayout_8.addWidget(self.stop_music)
 
@@ -1444,7 +1464,8 @@ class Ui_Form(object):
         self.pushButton_9.setText(QCoreApplication.translate("Form", u"Conteudo", None))
         self.back_content.setText("")
         self.label_5.setText(QCoreApplication.translate("Form", u"Buscar Musica", None))
-        self.btn_procurar.setText(QCoreApplication.translate("Form", u"Procurar", None))
+        self.lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Busque sua musica aqui", None))
+        self.btn_procurar.setText("")
         self.pushButton_6.setText(QCoreApplication.translate("Form", u"Busca", None))
         self.boasvindas_2.setText(QCoreApplication.translate("Form", u"<html><head/><body><p><span style=\" font-size:18pt; color:#000000;\">A experi\u00eancia Perfeita espera por voc\u00ea </span></p><p><span style=\" font-size:13pt; color:#000000;\">Vincule todas as suas musicas, baixe, veja letras e muito mais!</span></p></body></html>", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
