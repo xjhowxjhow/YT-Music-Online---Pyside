@@ -23,6 +23,8 @@ STATUS_PLAYER = False
 PAUSE = False
 PORCERNT = 0
 CURRENT_PATCH = ''
+TIMER_RUN = 0
+TIMER_FULL = 0
 
 
 class Player(QMediaPlayer):
@@ -50,7 +52,8 @@ class Player(QMediaPlayer):
         self.state = 0
         self.timer.stop()
         return super().stop()
-
+    def retunr_position(self):
+        return self.position
        
     def position_changed(self, position):
         self.position = position
@@ -69,6 +72,8 @@ class Player(QMediaPlayer):
             STATUS_PLAYER = True
     
     def progress(self):
+
+
         try:
             operation = self.position / self.duration * 100
             format = "{:.2f}".format(operation)
@@ -267,72 +272,30 @@ class funcoes(Ui_Form):
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
         def thead(self):
-            current_row = self.tableWidget.currentRow()
+               
+           state = self.player.state()
+           while True:
+               if int(state) == 0 :
+                   print("player parado")
+                   break
+               
+               else:
+                    time.sleep(0.1)
+                    a = self.player.duration
+                    b = self.player.position
+                    # convert position to time
+                    position = time.strftime('%H:%M:%S', time.gmtime(b / 1000))
 
-            full_duration = self.tableWidget.item(current_row, 3).text() #06:00
-            progress_full=  full_duration.split(':') 
-            full_duration = full_duration.split(':')
-            
-            
-            print(full_duration)
-            if len(full_duration) == 2:
-                #ate´9:59
-                minute = int(full_duration[0])
-                second = int(full_duration[1])
-                full_duration = (minute * 60) + second
-                convert = time.strftime('%H:%M:%S', time.gmtime(full_duration))
-            else:
-                pass
-    
+                    # restante 
+                    restante = a - b
+                    restante = time.strftime('%H:%M:%S', time.gmtime(restante / 1000))
+                    #set time in label
+                    self.clok_start.setText(position)
+                    self.clok_resta_.setText(restante)
+                    #set progress bar
                 
 
             
-            time_start = time.time()
-            global STATUS_PLAYER
-            STATUS_PLAYER = True
-            global PAUSE
-            PAUSE = False
-            global PORCERNT 
-            
-            
-            while STATUS_PLAYER == True:
-
-                if PAUSE == False:
-                    
-                    time.sleep(1)
-                    #convert time
-                    time_end = time.time()
-                    time_total = time_end - time_start
-                    time_total = time.strftime("%H:%M:%S", time.gmtime(time_total))
-                    #set time
-                    self.clok_start.setText(time_total)
-                    #left time
-                    time_1 = datetime.strptime(convert,"%H:%M:%S")
-                    time_2 = datetime.strptime(time_total,"%H:%M:%S")
-                    time_left = time_1 - time_2
-                    time_left = str(time_left)
-                    
-                    #Progress bar
-
-                   
-                    
-                    if time_left == '0:00:00':
-                        self.player.stop()
-                        
-                        self.player.setMedia(QMediaContent())
-                        STATUS_PLAYER = False
-                        
-                        #delete file
-                        os.remove(patch)
-                        
-                        break
-                    self.clok_resta_.setText(time_left)
-                else:
-                    print("pausado")
-                    print(convert,time_total)
-                    
-                    pass
-            #delete file
            
 
         thread = threading.Thread(target=thead , args=(self,) ,name='thread_player',daemon=True)

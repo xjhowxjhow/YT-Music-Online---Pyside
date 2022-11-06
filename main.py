@@ -75,12 +75,12 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
             self.adss.setCurrentWidget(self.adssPage1)
             return True
         
-        #CLICK ROW TABLE
-        if obj == self.tableWidget:
-            if event.type() == QEvent.MouseButtonRelease:
-                current_row = self.tableWidget.currentRow()
-                url = self.tableWidget.item(current_row, 0).text()
-                funcoes.search_and_play(self,url)
+        #double CLICK ROW TABLE
+        if obj == self.tableWidget.currentRow() and event.type() == QtCore.QEvent.MouseButtonDblClick:
+            print("double click")
+            current_row = self.tableWidget.currentRow()
+            url = self.tableWidget.item(current_row, 0).text()
+            funcoes.search_and_play(self,url)
             return True
         #EVENTS AP
         if obj == self.lineEdit and event.type() == QtCore.QEvent.KeyPress:
