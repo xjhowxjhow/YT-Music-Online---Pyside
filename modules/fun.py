@@ -273,7 +273,14 @@ class funcoes(Ui_Form):
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
         while STATUS_PLAYER == True:
-            time.sleep(0.1)
+            if self.player.state() == 1:
+                self.clok_resta_.setText('00:00:00')
+                self.clok_start.setText('00:00:00')
+                self.progress_music.setValue(0)
+                print("player parado")
+                STATUS_PLAYER = False
+                break
+            time.sleep(1)
             a = self.player.duration
             b = self.player.position
             # convert position to time
