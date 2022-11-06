@@ -39,18 +39,14 @@ class Player(QMediaPlayer):
         self.durationChanged.connect(self.duration_changed)
         self.stateChanged.connect(self.state_changed)
         
-        #interval
-        self.timer = QTimer()
-        self.timer.setInterval(1000)
-        self.timer.timeout.connect(self.progress)
-        self.timer.start()
+
     def stop(self):
         print('stop comand')
         self.position = 0
         self.duration = 0
         self.file = QMediaContent()
         self.state = 0
-        self.timer.stop()
+
         return super().stop()
     def retunr_position(self):
         return self.position
@@ -62,30 +58,13 @@ class Player(QMediaPlayer):
         self.duration = duration
 
     def state_changed(self, state):
-        #delete file
-    
+
         global STATUS_PLAYER
         if state == 0:
             STATUS_PLAYER = False
             
         else:
             STATUS_PLAYER = True
-    
-    def progress(self):
-
-
-        try:
-            operation = self.position / self.duration * 100
-            format = "{:.2f}".format(operation)
-            global PORCERNT
-            PORCERNT = float(format)
-        except:
-            pass
-        
-        self.stackSignal.emit()
-        
-        
-        return True
         
 
     
@@ -249,6 +228,7 @@ class funcoes(Ui_Form):
                     
 
                 STATUS_PLAYER = False
+            
                 
             CURRENT_PATCH = patch
             print(CURRENT_PATCH,"novo patch")
@@ -271,10 +251,11 @@ class funcoes(Ui_Form):
         self.clok_resta_.setText('00:00:00')
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
+
         def thead(self):
-            
-            
             global STATUS_PLAYER
+            
+            
             while STATUS_PLAYER == True:
                 time.sleep(0.1)
                 a = self.player.duration
@@ -288,7 +269,13 @@ class funcoes(Ui_Form):
                 self.clok_start.setText(position)
                 self.clok_resta_.setText(restante)
                 #set progress bar
+                operation = b/ a * 100
+                format = "{:.2f}".format(operation)
+                # int format
+                
+                self.progress_music.setValue(int(float(format)))
             print("thread parou")
+            
 
         thread = threading.Thread(target=thead , args=(self,) ,name='thread_player',daemon=True)
         thread.start()
