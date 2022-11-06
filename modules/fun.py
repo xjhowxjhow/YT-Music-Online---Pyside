@@ -272,31 +272,23 @@ class funcoes(Ui_Form):
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
         def thead(self):
-               
-           state = self.player.state()
-           while True:
-               if int(state) == 0 :
-                   print("player parado")
-                   break
-               
-               else:
-                    time.sleep(0.1)
-                    a = self.player.duration
-                    b = self.player.position
-                    # convert position to time
-                    position = time.strftime('%H:%M:%S', time.gmtime(b / 1000))
-
-                    # restante 
-                    restante = a - b
-                    restante = time.strftime('%H:%M:%S', time.gmtime(restante / 1000))
-                    #set time in label
-                    self.clok_start.setText(position)
-                    self.clok_resta_.setText(restante)
-                    #set progress bar
-                
-
             
-           
+            
+            global STATUS_PLAYER
+            while STATUS_PLAYER == True:
+                time.sleep(0.1)
+                a = self.player.duration
+                b = self.player.position
+                # convert position to time
+                position = time.strftime('%H:%M:%S', time.gmtime(b / 1000))   
+                # restante 
+                restante = a - b
+                restante = time.strftime('%H:%M:%S', time.gmtime(restante / 1000))
+                #set time in label
+                self.clok_start.setText(position)
+                self.clok_resta_.setText(restante)
+                #set progress bar
+            print("thread parou")
 
         thread = threading.Thread(target=thead , args=(self,) ,name='thread_player',daemon=True)
         thread.start()
