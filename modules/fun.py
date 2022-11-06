@@ -39,7 +39,11 @@ class Player(QMediaPlayer):
         self.durationChanged.connect(self.duration_changed)
         self.stateChanged.connect(self.state_changed)
         
-
+    def stop(self):
+    
+        global STATUS_PLAYER
+        STATUS_PLAYER = False
+        return super().stop()
 
     def retunr_position(self):
         return self.position
@@ -61,7 +65,30 @@ class Player(QMediaPlayer):
         
 
     
+
+class WorkerSignals(QObject):
+     def __init__(self, parent=None):
+         super().__init__(parent)
+         finished = Signal()
+         error = Signal(tuple)
+         result = Signal(object)
+         progress = Signal(int)
+        # Add other signals here
     
+class Worker(QRunnable):
+    def __init__(self, fn, *args, **kwargs):
+        super(Worker, self).__init__()
+        self.fn = fn
+        self.args = args
+        self.kwargs = kwargs
+        self.signals = WorkerSignals()
+
+    @Slot()
+    def run(self):
+        try:
+            result = self.fn(*self.args, **self.kwargs)
+        except:
+            pass
 
 class funcoes(Ui_Form):
  
@@ -124,9 +151,6 @@ class funcoes(Ui_Form):
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
     
         return True
-    
-    
-    
     
     
     def search_and_play(self,url):
@@ -229,49 +253,47 @@ class funcoes(Ui_Form):
             self.player.setMedia(QMediaContent(QUrl.fromLocalFile(patch)))
             self.player.play()
 
-            funcoes.Player_statemnt(self,patch)
+
             self.adss.setCurrentWidget(self.page_video_img)
             
+            funcoes._start_thread(self)
+
+            
             return True
-            
-            # minutos 5 / 30 = 100
-            
-    
-                
-   
-            
-    def Player_statemnt(self, patch):
+
+    def _start_thread(self):
+        instance = QThreadPool.globalInstance()
+        run = funcoes.Player_statemnt
+        thread = Worker(run, self)
+        instance.start(thread)
+        return True
+
+    def Player_statemnt(self):
         self.clok_resta_.setText('00:00:00')
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
+        while STATUS_PLAYER == True:
+            time.sleep(0.1)
+            a = self.player.duration
+            b = self.player.position
+            # convert position to time
+            position = time.strftime('%H:%M:%S', time.gmtime(b / 1000))   
+            # restante 
+            restante = a - b
+            restante = time.strftime('%H:%M:%S', time.gmtime(restante / 1000))
+            #set time in label
+            self.clok_start.setText(position)
+            self.clok_resta_.setText(restante)
+            #set progress bar
+            operation = b/ a * 100
+            format = "{:.2f}".format(operation)
+            # int format
+            
+            self.progress_music.setValue(int(float(format)))
 
-        def thead(self):
-            global STATUS_PLAYER
-            
-            
-            while STATUS_PLAYER == True:
-                time.sleep(0.1)
-                a = self.player.duration
-                b = self.player.position
-                # convert position to time
-                position = time.strftime('%H:%M:%S', time.gmtime(b / 1000))   
-                # restante 
-                restante = a - b
-                restante = time.strftime('%H:%M:%S', time.gmtime(restante / 1000))
-                #set time in label
-                self.clok_start.setText(position)
-                self.clok_resta_.setText(restante)
-                #set progress bar
-                operation = b/ a * 100
-                format = "{:.2f}".format(operation)
-                # int format
-                
-                self.progress_music.setValue(int(float(format)))
-            print("thread parou")
             
 
-        thread = threading.Thread(target=thead , args=(self,) ,name='thread_player',daemon=True)
-        thread.start()
+
         
         
     def Pause(self):
@@ -293,12 +315,12 @@ class funcoes(Ui_Form):
 
 
     def Stop(self):
-
+        self.player.stop()
 
         self.clok_resta_.setText('00:00:00')
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
-        self.player.stop()
+        time.sleep(0.5)
         self.player.setMedia(QMediaContent(None))
         #remove file in player
 
@@ -312,18 +334,28 @@ class funcoes(Ui_Form):
     def Volume(self,value):
         self.player.setVolume(value)
 
+
+
+
+    def Progress_bar(self):
+        global PORCERNT
+        self.progress_music.setValue(PORCERNT)
+        
         
     def _Delete_Files(self):
         
         def thead(self):
             _folder_ = os.path.dirname(os.path.realpath(__file__)) + '\downloads\\'
-
+    
             for file in os.listdir(_folder_):
                 if file.endswith(".mp3"):
-                    try:
-                        os.remove(_folder_ + file)
-                    except Exception as e:
+                    if _folder_ + file == CURRENT_PATCH:
                         pass
+                    else:
+                        try:
+                            os.remove(_folder_ + file)
+                        except Exception as e:
+                            pass
                 else:
                     pass
         thread = threading.Thread(target=thead , args=(self,) ,name='thread_delet',daemon=True)

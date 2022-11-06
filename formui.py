@@ -825,7 +825,7 @@ class Ui_Form(object):
 "QPushButton{\n"
 "	\n"
 "border-bottom-left-radius:0;\n"
-"border-bottom-right-radius1:0;\n"
+"border-bottom-right-radius:0;\n"
 "border-top-left-radius:0;\n"
 "border-top-right-radius:10;\n"
 "\n"
