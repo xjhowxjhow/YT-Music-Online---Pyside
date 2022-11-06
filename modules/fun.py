@@ -40,14 +40,7 @@ class Player(QMediaPlayer):
         self.stateChanged.connect(self.state_changed)
         
 
-    def stop(self):
-        print('stop comand')
-        self.position = 0
-        self.duration = 0
-        self.file = QMediaContent()
-        self.state = 0
 
-        return super().stop()
     def retunr_position(self):
         return self.position
        
@@ -300,12 +293,12 @@ class funcoes(Ui_Form):
 
 
     def Stop(self):
-        self.player.stop()
-        
+
+
         self.clok_resta_.setText('00:00:00')
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
-        time.sleep(0.5)
+        self.player.stop()
         self.player.setMedia(QMediaContent(None))
         #remove file in player
 
@@ -331,16 +324,13 @@ class funcoes(Ui_Form):
         
         def thead(self):
             _folder_ = os.path.dirname(os.path.realpath(__file__)) + '\downloads\\'
-    
+
             for file in os.listdir(_folder_):
                 if file.endswith(".mp3"):
-                    if _folder_ + file == CURRENT_PATCH:
+                    try:
+                        os.remove(_folder_ + file)
+                    except Exception as e:
                         pass
-                    else:
-                        try:
-                            os.remove(_folder_ + file)
-                        except Exception as e:
-                            pass
                 else:
                     pass
         thread = threading.Thread(target=thead , args=(self,) ,name='thread_delet',daemon=True)
