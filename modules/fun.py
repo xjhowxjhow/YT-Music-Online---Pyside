@@ -312,13 +312,6 @@ class funcoes(Ui_Form):
     def Volume(self,value):
         self.player.setVolume(value)
 
-
-
-
-    def Progress_bar(self):
-        global PORCERNT
-        self.progress_music.setValue(PORCERNT)
-        
         
     def _Delete_Files(self):
         
