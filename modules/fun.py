@@ -266,14 +266,17 @@ class funcoes(Ui_Form):
         run = funcoes.Player_statemnt
         thread = Worker(run, self)
         instance.start(thread)
+        
         return True
 
     def Player_statemnt(self):
         self.clok_resta_.setText('00:00:00')
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
+        global STATUS_PLAYER
+
         while STATUS_PLAYER == True:
-            if self.player.state() == 1:
+            if self.player.state() == 0:
                 self.clok_resta_.setText('00:00:00')
                 self.clok_start.setText('00:00:00')
                 self.progress_music.setValue(0)
@@ -290,6 +293,7 @@ class funcoes(Ui_Form):
             restante = time.strftime('%H:%M:%S', time.gmtime(restante / 1000))
             #set time in label
             self.clok_start.setText(position)
+            time.sleep(0.1)
             self.clok_resta_.setText(restante)
             #set progress bar
             operation = b/ a * 100
@@ -298,11 +302,6 @@ class funcoes(Ui_Form):
             
             self.progress_music.setValue(int(float(format)))
 
-            
-
-
-        
-        
     def Pause(self):
         global STATUS_PLAYER
         global PAUSE

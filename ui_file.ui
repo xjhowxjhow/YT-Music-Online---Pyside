@@ -1621,7 +1621,7 @@ border-top-right-radius:0;</string>
 QPushButton{
 	
 border-bottom-left-radius:0;
-border-bottom-right-radius1:0;
+border-bottom-right-radius:10;
 border-top-left-radius:0;
 border-top-right-radius:10;
 
@@ -1973,6 +1973,9 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
                        </layout>
                       </widget>
                       <widget class="QWidget" name="page_video_img">
+                       <property name="styleSheet">
+                        <string notr="true"/>
+                       </property>
                        <layout class="QVBoxLayout" name="verticalLayout_11">
                         <property name="spacing">
                          <number>0</number>

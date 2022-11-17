@@ -41,6 +41,8 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         
         #effects
         Effects.slide_content_ads(self)
+        
+
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         #event filter
         self.togle.installEventFilter(self)

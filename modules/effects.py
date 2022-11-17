@@ -47,3 +47,5 @@ class Effects (Ui_Form):
             self.animation.start()
             
             GLOBAL_TOGLE = False
+            
+            
