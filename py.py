@@ -1,9 +1,9 @@
 import sys, os
 from PySide2.QtWidgets import QApplication, QWidget, QPushButton, \
                             QHBoxLayout, QVBoxLayout
-from PySide2.QtCore import QUrl
+from PySide2.QtCore import QUrl, QThread, QThreadPool, Signal, Slot
 from PySide2.QtMultimedia import QMediaPlayer, QMediaContent
-
+from PySide2.QtCore import QCoreApplication
 
 class MyApp(QWidget):
     def __init__(self):
@@ -28,6 +28,10 @@ class MyApp(QWidget):
         volumeControl.addWidget(btnVolumeDown)
 
         self.player = QMediaPlayer()
+        
+        # cria uma instancia do app 
+        self.app = QCoreApplication.instance()
+
 
     def volumeUp(self):
         currentVolume = self.player.volume() # 

@@ -14,8 +14,10 @@ from PySide2.QtMultimedia import QMediaPlayer, QMediaContent
 import urllib.request
 import threading
 import time
+from PySide2.QtCore import QMetaObject, Qt
 import requests
 from datetime import datetime
+from random import randint
 
 
 
@@ -76,25 +78,19 @@ class WorkerSignals(QObject):
         # Add other signals here
     
 class Worker(QRunnable):
-    def __init__(self, fn, *args, **kwargs):
+    def __init__(self, function, *args, **kwargs):
         super(Worker, self).__init__()
-        self.fn = fn
+        self.function = function
         self.args = args
         self.kwargs = kwargs
-        self.signals = WorkerSignals()
 
     @Slot()
     def run(self):
-        try:
-            result = self.fn(*self.args, **self.kwargs)
-        except:
-            pass
+        self.function(*self.args, **self.kwargs)
 
 class funcoes(Ui_Form):
- 
 
-    
-    
+
     def get_data_search(self, search):
         font = QFont()
         font.setFamily(u"Bahnschrift Light SemiCondensed")
@@ -153,12 +149,10 @@ class funcoes(Ui_Form):
         return True
     
     
-    def search_and_play(self,url):
-       
-        diretorio =  os.path.dirname(os.path.realpath(__file__))
-        
-        folder = diretorio + '\downloads\\'
-        outtmpl = folder + '\%(title)s'+'.mp3'
+    def search_and_play(self, url):
+        directory = os.path.dirname(os.path.realpath(__file__))
+        folder = directory + '\downloads\\'
+        outtmpl = folder + '\%(title)s' + '.mp3'
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': outtmpl,
@@ -166,142 +160,126 @@ class funcoes(Ui_Form):
                 'key': 'FFmpegExtractAudio',
                 'preferredquality': '192',
             }],
-            
-
-            
-            
         }
-  
-            
+
         with YoutubeDL(ydl_opts) as ydl:
-            
-            #download and save file in folder
+            # Download and save file in folder
             try:
                 ydl.download([url])
-                
-                
             except:
                 pass
-            
-            #get thumbnail 
+
+            # Get thumbnail
             info_dict = ydl.extract_info(url, download=False)
             thumbnail = info_dict.get('thumbnail', None)
-
             pix_map = QPixmap()
             pix_map.loadFromData(requests.get(thumbnail).content)
-            
-            
             self.video_label.setPixmap(pix_map)
             self.video_label.setScaledContents(True)
-            
 
-            
-            #get file name
+            # Get file name
             info_dict = ydl.extract_info(url, download=False)
-            #get duration
+            # Get duration
             duration = info_dict.get('duration', None)
-
             video_title = info_dict.get('title', None)
             self.set_titulo.setText(video_title)
             self.title_page2.setText(video_title)
-            #inverter barra
+            # Invert bar
             video_title = video_title.replace('/', '\\')
             video_title = video_title + '.mp3'
             print(video_title)
-            
-            #play file \
+
+            # Play file \
             patch = folder + video_title
-            global CURRENT_PATCH 
+            global CURRENT_PATCH
             global STATUS_PLAYER
-            print(CURRENT_PATCH,"CURRENT_PATCH")
+            print(CURRENT_PATCH, "CURRENT_PATCH")
             if STATUS_PLAYER == True:
                 print("status ta ativo vamo parar")
                 # stop thread
 
+                # stop player
 
-                #stop player
-
-                
-            
                 self.player.stop()
-                
-                
-                var_1= self.clok_resta_
-                var_2= self.clok_start
-             
-                var_1.setText("00:00:00")
-                var_2.setText("00:00:00")
-                self.progress_music.setValue(0)
-                
 
-      
-                if  CURRENT_PATCH == '' or CURRENT_PATCH == None:
+                self.clok_resta_.setText("00:00:00")
+                self.clok_start.setText("00:00:00")
+                self.progress_music.setValue(0)
+
+                if CURRENT_PATCH == '' or CURRENT_PATCH == None:
                     pass
                 else:
-                    
                     self.player.setMedia(QMediaContent())
-                    #remove file in player
-                    
-                    
+                    # remove file in player
 
                 STATUS_PLAYER = False
-            
-                
+
             CURRENT_PATCH = patch
-            print(CURRENT_PATCH,"novo patch")
+            print(CURRENT_PATCH, "novo patch")
             funcoes._Delete_Files(self)
             self.player.setMedia(QMediaContent(QUrl.fromLocalFile(patch)))
             self.player.play()
 
-
             self.adss.setCurrentWidget(self.page_video_img)
-            
-            funcoes._start_thread(self)
 
-            
-            return True
+            funcoes._start_thread(self)
 
     def _start_thread(self):
         instance = QThreadPool.globalInstance()
         run = funcoes.Player_statemnt
         thread = Worker(run, self)
         instance.start(thread)
+        # fisnish thread
         
         return True
 
-    def Player_statemnt(self):
+    def Player_statemnt(self): # thread
         self.clok_resta_.setText('00:00:00')
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
         global STATUS_PLAYER
-
         while STATUS_PLAYER == True:
+            QThread.msleep(1000)
             if self.player.state() == 0:
-                self.clok_resta_.setText('00:00:00')
-                self.clok_start.setText('00:00:00')
-                self.progress_music.setValue(0)
-                print("player parado")
-                STATUS_PLAYER = False
-                break
-            time.sleep(1)
-            a = self.player.duration
-            b = self.player.position
-            # convert position to time
-            position = time.strftime('%H:%M:%S', time.gmtime(b / 1000))   
-            # restante 
-            restante = a - b
-            restante = time.strftime('%H:%M:%S', time.gmtime(restante / 1000))
-            #set time in label
-            self.clok_start.setText(position)
-            time.sleep(0.1)
-            self.clok_resta_.setText(restante)
-            #set progress bar
-            operation = b/ a * 100
-            format = "{:.2f}".format(operation)
-            # int format
-            
-            self.progress_music.setValue(int(float(format)))
 
+                QMetaObject.invokeMethod(self, "Terminated", Qt.QueuedConnection)
+                STATUS_PLAYER = False
+
+                break
+
+            print("atualizando")
+
+            QMetaObject.invokeMethod(self, "Update_Ui", Qt.QueuedConnection)
+
+    def Update_Ui(self):
+        
+        self.boasvindas_2.setText("Aguarde, carregando..." + str(randint(0, 100)))
+        a = self.player.duration
+        b = self.player.position
+        # convert position to time
+        position = time.strftime('%H:%M:%S', time.gmtime(b / 1000))   
+        # remaining 
+        remaining = a - b
+        remaining = time.strftime('%H:%M:%S', time.gmtime(remaining / 1000))
+        # set time in label
+        self.clok_start.setText(position)
+        # time.sleep(0.1)
+        self.clok_resta_.setText(remaining)
+        # set progress bar
+        operation = b/ a * 100
+        format = "{:.2f}".format(operation)
+        # int format
+        print("working, player")
+        self.progress_music.setValue(int(float(format)))
+        return True
+    
+    def Terminated_Music(self):
+        self.clok_resta_.setText('00:00:00')
+        self.clok_start.setText('00:00:00')
+        self.progress_music.setValue(0)
+        self.player.stop()
+        return True
+    
     def Pause(self):
         global STATUS_PLAYER
         global PAUSE

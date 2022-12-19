@@ -22,7 +22,7 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
 
         self.setupUi(self)
         self.show()
-        
+        self.app = QCoreApplication.instance()
         #shadow
         self.shadow = QtWidgets.QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(20)
@@ -129,9 +129,15 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         return super(MainWindow,self).eventFilter(obj, event)
 
         
-        
-        
-        
+    @QtCore.Slot()
+    def Update_Ui(self):
+        print("update ui")
+        funcoes.Update_Ui(self)
+    
+    @QtCore.Slot()
+    def Terminated(self):
+        print("terminated")
+        funcoes.Terminated_Music(self)
         
         
         
