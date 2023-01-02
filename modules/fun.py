@@ -88,6 +88,9 @@ class Worker(QRunnable):
     def run(self):
         self.function(*self.args, **self.kwargs)
 
+
+    
+    
 class funcoes(Ui_Form):
 
 
@@ -230,7 +233,7 @@ class funcoes(Ui_Form):
         thread = Worker(run, self)
         instance.start(thread)
         # fisnish thread
-        
+
         return True
 
     def Player_statemnt(self): # thread
@@ -278,6 +281,7 @@ class funcoes(Ui_Form):
         self.clok_start.setText('00:00:00')
         self.progress_music.setValue(0)
         self.player.stop()
+        
         return True
     
     def Pause(self):
@@ -310,6 +314,8 @@ class funcoes(Ui_Form):
 
         global STATUS_PLAYER
         STATUS_PLAYER = False
+        instance = QThreadPool.globalInstance()
+        instance.clear()
         funcoes._Delete_Files(self)
 
         return True
