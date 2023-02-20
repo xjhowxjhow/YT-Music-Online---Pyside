@@ -52,41 +52,46 @@ class funcoes(Ui_Form):
     
         for video in videosResult['result']:
             print(video['title'], video['link'], video['duration'])
+            duration_cut = video['duration'].split(':')
 
-            rowPosition = self.tableWidget.rowCount()
-            self.tableWidget.insertRow(rowPosition)
-            #link
-            self.tableWidget.setItem(rowPosition , 0, QTableWidgetItem(video['link']))
-            
-
-            #thumb
-            self.pushButton_pago = QPushButton()
-            self.pushButton_pago.setObjectName("thumbnaill")
-
-
-            #download image em set background
-            url = video['thumbnails'][0]['url']
-            data = urllib.request.urlopen(url).read()
-            image = QtGui.QImage()
-            image.loadFromData(data)
-            pixmap = QtGui.QPixmap(image)
-            
-            self.video_label.setScaledContents(True)
-            self.pushButton_pago.setIconSize(QtCore.QSize(200, 200))
-            self.pushButton_pago.setIcon(QIcon(pixmap))
-            #set background image
-            self.tableWidget.setCellWidget(rowPosition, 1, self.pushButton_pago)
-
-            #title
-            self.tableWidget.setItem(rowPosition , 2, QTableWidgetItem(video['title']))
-            #non editable
-            self.tableWidget.item(rowPosition, 2).setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)
-            #DUration
-            self.tableWidget.setItem(rowPosition , 3, QTableWidgetItem(video['duration']))
-            #view
-            self.tableWidget.setItem(rowPosition , 4, QTableWidgetItem(video['viewCount']['short']))
-            #tempo publicado
-            self.tableWidget.setItem(rowPosition , 5, QTableWidgetItem(video['publishedTime']))
+            if len(duration_cut) > 2:
+                print(duration_cut)
+                pass
+            else:
+                rowPosition = self.tableWidget.rowCount()
+                self.tableWidget.insertRow(rowPosition)
+                #link
+                self.tableWidget.setItem(rowPosition , 0, QTableWidgetItem(video['link']))
+                
+    
+                #thumb
+                self.pushButton_pago = QPushButton()
+                self.pushButton_pago.setObjectName("thumbnaill")
+    
+    
+                #download image em set background
+                url = video['thumbnails'][0]['url']
+                data = urllib.request.urlopen(url).read()
+                image = QtGui.QImage()
+                image.loadFromData(data)
+                pixmap = QtGui.QPixmap(image)
+                
+                self.video_label.setScaledContents(True)
+                self.pushButton_pago.setIconSize(QtCore.QSize(200, 200))
+                self.pushButton_pago.setIcon(QIcon(pixmap))
+                #set background image
+                self.tableWidget.setCellWidget(rowPosition, 1, self.pushButton_pago)
+    
+                #title
+                self.tableWidget.setItem(rowPosition , 2, QTableWidgetItem(video['title']))
+                #non editable
+                self.tableWidget.item(rowPosition, 2).setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)
+                #DUration
+                self.tableWidget.setItem(rowPosition , 3, QTableWidgetItem(video['duration']))
+                #view
+                self.tableWidget.setItem(rowPosition , 4, QTableWidgetItem(video['viewCount']['short']))
+                #tempo publicado
+                self.tableWidget.setItem(rowPosition , 5, QTableWidgetItem(video['publishedTime']))
 
         #block editables
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -179,9 +184,12 @@ class funcoes(Ui_Form):
         global PAUSE
         if PAUSE == False:
             self.start_player.pause()
+            self.pause_music.setIcon(QIcon(':/btn/image/resume.png'))
+
             PAUSE = True
         else:
             self.start_player.resume()
+            self.pause_music.setIcon(QIcon(':/btn/image/pause.png'))
             PAUSE = False
 
 
