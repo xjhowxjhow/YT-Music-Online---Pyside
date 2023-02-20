@@ -29,7 +29,7 @@ class Effects (Ui_Form):
         if GLOBAL_TOGLE == False:
             self.animation = QtCore.QPropertyAnimation(self.menu, b"minimumWidth")
             self.animation.setDuration(500)
-            self.animation.setStartValue(65)
+            self.animation.setStartValue(60)
             self.animation.setEndValue(250)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutExpo)
             self.animation.start()
@@ -42,7 +42,7 @@ class Effects (Ui_Form):
             self.animation = QtCore.QPropertyAnimation(self.menu, b"minimumWidth")
             self.animation.setDuration(500)
             self.animation.setStartValue(250)
-            self.animation.setEndValue(65)
+            self.animation.setEndValue(60)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutExpo)
             self.animation.start()
             

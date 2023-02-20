@@ -81,11 +81,18 @@ class funcoes(Ui_Form):
             self.tableWidget.setItem(i, 0, QTableWidgetItem(result['link']))
             #  sem self para ser unico
             thumbnail_button = QPushButton()
-            thumbnail_button.setIconSize(QtCore.QSize(200, 200))
+            thumbnail_button.setIconSize(QtCore.QSize(100, 100))
             self.tableWidget.setCellWidget(i, 1, thumbnail_button)
 
             thumbnail_button.setObjectName(f"thumbnail_{i}")
+            thumbnail_button.setStyleSheet("background-color: transparent; border: none;")
             # threadpool para baixar imagem em paralelo e nao travar a interface
+            # para entendimento o lambda é uma função anonima que recebe o pixmap e o button e seta o icon do button com o pixmap retornado 
+            #apartir do : é o retorno da função anonima antes do : é o que a função recebe como parametro 
+            #exmplo pratico:
+            #soma = lambda x, y: x + y
+            #resultado = soma(2, 3)  # resultado é 5
+            
             load_image_runnable = LoadImageRunnable(result['thumbnail'], lambda pixmap, button=thumbnail_button: button.setIcon(pixmap))
             threadpool.start(load_image_runnable)
 
