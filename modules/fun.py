@@ -18,6 +18,7 @@ from PySide2.QtCore import QMetaObject, Qt
 import requests
 from datetime import datetime
 from random import randint
+from modules.testbottherad import Thead_Player
 
 
 
@@ -28,65 +29,6 @@ CURRENT_PATCH = ''
 TIMER_RUN = 0
 TIMER_FULL = 0
 
-
-class Player(QMediaPlayer):
-    stackSignal = QtCore.Signal()
-    def __init__(self):
-        super().__init__()
-        #print current file
-        self.file = QMediaContent()
-        
-    
-        self.positionChanged.connect(self.position_changed)
-        self.durationChanged.connect(self.duration_changed)
-        self.stateChanged.connect(self.state_changed)
-        
-    def stop(self):
-    
-        global STATUS_PLAYER
-        STATUS_PLAYER = False
-        return super().stop()
-
-    def retunr_position(self):
-        return self.position
-       
-    def position_changed(self, position):
-        self.position = position
-        
-    def duration_changed(self, duration):
-        self.duration = duration
-
-    def state_changed(self, state):
-
-        global STATUS_PLAYER
-        if state == 0:
-            STATUS_PLAYER = False
-            
-        else:
-            STATUS_PLAYER = True
-        
-
-    
-
-class WorkerSignals(QObject):
-     def __init__(self, parent=None):
-         super().__init__(parent)
-         finished = Signal()
-         error = Signal(tuple)
-         result = Signal(object)
-         progress = Signal(int)
-        # Add other signals here
-    
-class Worker(QRunnable):
-    def __init__(self, function, *args, **kwargs):
-        super(Worker, self).__init__()
-        self.function = function
-        self.args = args
-        self.kwargs = kwargs
-
-    @Slot()
-    def run(self):
-        self.function(*self.args, **self.kwargs)
 
 
     
@@ -212,7 +154,7 @@ class funcoes(Ui_Form):
                 if CURRENT_PATCH == '' or CURRENT_PATCH == None:
                     pass
                 else:
-                    self.player.setMedia(QMediaContent())
+                    pass
                     # remove file in player
 
                 STATUS_PLAYER = False
@@ -220,118 +162,29 @@ class funcoes(Ui_Form):
             CURRENT_PATCH = patch
             print(CURRENT_PATCH, "novo patch")
             funcoes._Delete_Files(self)
-            self.player.setMedia(QMediaContent(QUrl.fromLocalFile(patch)))
-            self.player.play()
-
+            #Start player
             self.adss.setCurrentWidget(self.page_video_img)
+            return funcoes.start_thread(self,patch)
 
-            funcoes._start_thread(self)
 
-    def _start_thread(self):
-        instance = QThreadPool.globalInstance()
-        run = funcoes.Player_statemnt
-        thread = Worker(run, self)
-        instance.start(thread)
-        # fisnish thread
-
-        return True
-
-    def Player_statemnt(self): # thread
-        self.clok_resta_.setText('00:00:00')
-        self.clok_start.setText('00:00:00')
-        self.progress_music.setValue(0)
-        global STATUS_PLAYER
-        while STATUS_PLAYER == True:
-            QThread.msleep(1000)
-            if self.player.state() == 0:
-
-                QMetaObject.invokeMethod(self, "Terminated", Qt.QueuedConnection)
-                STATUS_PLAYER = False
-
-                break
-
-            print("atualizando")
-
-            QMetaObject.invokeMethod(self, "Update_Ui", Qt.QueuedConnection)
-
-    def Update_Ui(self):
+    def start_thread(self,patch):
+        self.start_player = Thead_Player(patch)
+        self.start_player.start()
+        self.start_player.data_received.connect(lambda data: funcoes.Update_Ui(self,data))
         
-        self.boasvindas_2.setText("Aguarde, carregando..." + str(randint(0, 100)))
-        a = self.player.duration
-        b = self.player.position
-        # convert position to time
-        position = time.strftime('%H:%M:%S', time.gmtime(b / 1000))   
-        # remaining 
-        remaining = a - b
-        remaining = time.strftime('%H:%M:%S', time.gmtime(remaining / 1000))
-        # set time in label
-        self.clok_start.setText(position)
-        # time.sleep(0.1)
-        self.clok_resta_.setText(remaining)
-        # set progress bar
-        operation = b/ a * 100
-        format = "{:.2f}".format(operation)
-        # int format
-        print("working, player")
-        self.progress_music.setValue(int(float(format)))
-        return True
-    
-    def Terminated_Music(self):
-        self.clok_resta_.setText('00:00:00')
-        self.clok_start.setText('00:00:00')
-        self.progress_music.setValue(0)
-        self.player.stop()
-        
-        return True
-    
-    def Pause(self):
-        global STATUS_PLAYER
+    def stop_music(self):
+        self.start_player.stop()
+
+    def pause_music(self):
         global PAUSE
-        if STATUS_PLAYER == True:
-            if PAUSE == False:
-                self.player.pause()
-                PAUSE = True
-                self.pause_music.setIcon(QIcon(':/btn/image/resume.png'))
-            else:
-                self.player.play()
-                PAUSE = False
-                self.pause_music.setIcon(QIcon(':/btn/image/pause.png'))
-         
-
+        if PAUSE == False:
+            self.start_player.pause()
+            PAUSE = True
         else:
-            pass
+            self.start_player.play()
+            PAUSE = False
 
 
-    def Stop(self):
-        self.player.stop()
-
-        self.clok_resta_.setText('00:00:00')
-        self.clok_start.setText('00:00:00')
-        self.progress_music.setValue(0)
-        time.sleep(0.5)
-        self.player.setMedia(QMediaContent(None))
-        #remove file in player
-
-        global STATUS_PLAYER
-        STATUS_PLAYER = False
-        instance = QThreadPool.globalInstance()
-        instance.clear()
-        funcoes._Delete_Files(self)
-
-        return True
-
-
-    def Volume(self,value):
-        self.player.setVolume(value)
-
-
-
-
-    def Progress_bar(self):
-        global PORCERNT
-        self.progress_music.setValue(PORCERNT)
-        
-        
     def _Delete_Files(self):
         
         def thead(self):
@@ -350,3 +203,16 @@ class funcoes(Ui_Form):
                     pass
         thread = threading.Thread(target=thead , args=(self,) ,name='thread_delet',daemon=True)
         thread.start()
+        
+
+
+
+    def Update_Ui(self,data):
+        print(data)
+        start = data['position']
+        remaining = data['remaining']
+        progress = data['percent_complete']
+        print("update ui")
+        self.clok_start.setText(start)
+        self.clok_resta_.setText(remaining)
+        self.progress_music.setValue(progress)

@@ -60,8 +60,7 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         self.tableWidget.horizontalHeader().setVisible(False)
         #focus
         self.tableWidget.setFocusPolicy(Qt.NoFocus)
-        self.player = Player()
-        self.player.stackSignal.connect(lambda:funcoes.Progress_bar(self))
+
         
         
     def eventFilter(self, obj, event):
@@ -113,10 +112,10 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
             funcoes.search_and_play(self,url)
             return True
         if obj == self.pause_music and event.type() == QtCore.QEvent.MouseButtonPress:
-            funcoes.Pause(self)
+            funcoes.pause_music(self)
             return True
         if obj == self.stop_music and event.type() == QtCore.QEvent.MouseButtonPress:
-            funcoes.Stop(self)
+            funcoes.stop_music(self)
             return True
         
         #volume event slider sroll  
@@ -129,16 +128,7 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         return super(MainWindow,self).eventFilter(obj, event)
 
         
-    @QtCore.Slot()
-    def Update_Ui(self):
-        print("update ui")
-        funcoes.Update_Ui(self)
-    
-    @QtCore.Slot()
-    def Terminated(self):
-        print("terminated")
-        funcoes.Terminated_Music(self)
-        
+
         
         
         
