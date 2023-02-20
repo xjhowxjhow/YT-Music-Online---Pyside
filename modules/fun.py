@@ -104,6 +104,13 @@ class funcoes(Ui_Form):
             self.tableWidget.setItem(i, 3, QTableWidgetItem(result['duration']))
             self.tableWidget.setItem(i, 4, QTableWidgetItem(result['view_count']))
             self.tableWidget.setItem(i, 5, QTableWidgetItem(result['published_time']))
+            # align center
+            self.tableWidget.item(i, 3).setTextAlignment(Qt.AlignCenter)
+            self.tableWidget.item(i, 4).setTextAlignment(Qt.AlignCenter)
+            self.tableWidget.item(i, 5).setTextAlignment(Qt.AlignCenter)
+
+
+
 
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
