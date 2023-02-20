@@ -137,24 +137,17 @@ class funcoes(Ui_Form):
     def handle_search_results(self, search_results):
         threadpool = QThreadPool.globalInstance()
         self.tableWidget.setRowCount(0)
-        self.thumbnail_buttons = []  # Criar lista vazia
+
         for i, result in enumerate(search_results):
             # print thumbnail
             print(result['thumbnail'])
             self.tableWidget.insertRow(i)
             self.tableWidget.setItem(i, 0, QTableWidgetItem(result['link']))
-    #             url = video['thumbnails'][0]['url']
-    #             data = urllib.request.urlopen(url).read()
-    #             image = QtGui.QImage()
-    #             image.loadFromData(data)
-    #             pixmap = QtGui.QPixmap(image)
-    
+            #  sem self para ser unico
             thumbnail_button = QPushButton()
             thumbnail_button.setIconSize(QtCore.QSize(200, 200))
             self.tableWidget.setCellWidget(i, 1, thumbnail_button)
-            self.thumbnail_buttons.append(thumbnail_button)
-            
-           # Definir objectName e carregar imagem do URL
+
             thumbnail_button.setObjectName(f"thumbnail_{i}")
             load_image_runnable = LoadImageRunnable(result['thumbnail'], lambda pixmap, button=thumbnail_button: button.setIcon(pixmap))
             threadpool.start(load_image_runnable)
