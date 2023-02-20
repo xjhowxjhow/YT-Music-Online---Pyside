@@ -48,6 +48,10 @@ class Thead_Player(QThread):
         print('pause')
         self.player.pause()
         
+    def resume(self):
+        print('resume')
+        self.player.play()
+        
     def stop(self):
         self.player.stop()
         print('stop')

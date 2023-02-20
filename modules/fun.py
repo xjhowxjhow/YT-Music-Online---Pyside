@@ -181,7 +181,7 @@ class funcoes(Ui_Form):
             self.start_player.pause()
             PAUSE = True
         else:
-            self.start_player.play()
+            self.start_player.resume()
             PAUSE = False
 
 
