@@ -40,7 +40,7 @@ class LoadImageRunnable(QRunnable):
     def run(self):
         print('baixando imagem')
         pixmap = self.load_image(self.url)
-        self.callback(pixmap)
+        return self.callback(pixmap)
 
     
     def load_image(self, url):
@@ -64,71 +64,7 @@ class LoadImageRunnable(QRunnable):
 class funcoes(Ui_Form):
 
 
-    # def get_data_search(self, search):
-    #     font = QFont()
-    #     font.setFamily(u"Bahnschrift Light SemiCondensed")
-    #     font.setPointSize(11)
-    #     cont = self.tableWidget.rowCount()
-    #     if cont > 0:
-    #         for i in range (cont): 
-    #             if self.tableWidget.rowCount() >= 0:
-    #                 self.tableWidget.removeRow(self.tableWidget.rowCount()-1)
 
-
-    #     videosSearch = VideosSearch(search+" vevo", limit = 30) #MOVER DPS PARA THREAD
-    #     videosResult = videosSearch.result()                    #MOVER DPS PARA THREAD
-    
-    #     for video in videosResult['result']:
-    #         print(video['title'], video['link'], video['duration'])
-    #         duration_cut = video['duration'].split(':')
-
-    #         if len(duration_cut) > 2:
-    #             print(duration_cut)
-    #             pass
-    #         else:
-    #             rowPosition = self.tableWidget.rowCount()
-    #             self.tableWidget.insertRow(rowPosition)
-    #             #link
-    #             self.tableWidget.setItem(rowPosition , 0, QTableWidgetItem(video['link']))
-                
-    
-    #             #thumb
-    #             self.pushButton_pago = QPushButton()
-    #             self.pushButton_pago.setObjectName("thumbnaill")
-    
-    
-    #             #download image em set background
-    #             url = video['thumbnails'][0]['url']
-    #             data = urllib.request.urlopen(url).read()
-    #             image = QtGui.QImage()
-    #             image.loadFromData(data)
-    #             pixmap = QtGui.QPixmap(image)
-                
-    #             self.video_label.setScaledContents(True)
-    #             self.pushButton_pago.setIconSize(QtCore.QSize(200, 200))
-    #             self.pushButton_pago.setIcon(QIcon(pixmap))
-    #             #set background image
-    #             self.tableWidget.setCellWidget(rowPosition, 1, self.pushButton_pago)
-    
-    #             #title
-    #             self.tableWidget.setItem(rowPosition , 2, QTableWidgetItem(video['title']))
-    #             #non editable
-    #             self.tableWidget.item(rowPosition, 2).setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)
-    #             #DUration
-    #             self.tableWidget.setItem(rowPosition , 3, QTableWidgetItem(video['duration']))
-    #             #view
-    #             self.tableWidget.setItem(rowPosition , 4, QTableWidgetItem(video['viewCount']['short']))
-    #             #tempo publicado
-    #             self.tableWidget.setItem(rowPosition , 5, QTableWidgetItem(video['publishedTime']))
-
-    #     #block editables
-    #     self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-    
-    #     return True
-    
-    
-    
-    
     def get_data_search(self, search):
         self.thread = SearchThread(search)
         self.thread.search_results.connect(lambda data:  funcoes.handle_search_results(self, data))
@@ -149,6 +85,7 @@ class funcoes(Ui_Form):
             self.tableWidget.setCellWidget(i, 1, thumbnail_button)
 
             thumbnail_button.setObjectName(f"thumbnail_{i}")
+            # threadpool para baixar imagem em paralelo e nao travar a interface
             load_image_runnable = LoadImageRunnable(result['thumbnail'], lambda pixmap, button=thumbnail_button: button.setIcon(pixmap))
             threadpool.start(load_image_runnable)
 
