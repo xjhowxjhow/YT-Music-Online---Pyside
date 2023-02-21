@@ -210,6 +210,20 @@ class funcoes(Ui_Form):
             PAUSE = False
 
 
+    def Volume(self,value):
+        try:
+            self.start_player.volume(value)
+        except Exception as e:
+            print(e)
+            pass
+
+    def update_progress(self):
+        mouse_position = self.progress_music.mapFromGlobal(self.cursor().pos())
+        progress_width = self.progress_music.width()
+        progress_value = int(mouse_position.x() / progress_width * 100)
+        self.progress_music.releaseMouse()
+        self.start_player.progress(progress_value)
+
     def _Delete_Files(self):
         
         def thead(self):

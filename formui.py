@@ -1085,7 +1085,7 @@ class Ui_Form(object):
 
         self.progress_music = QProgressBar(self.progress_frame_3)
         self.progress_music.setObjectName(u"progress_music")
-        self.progress_music.setMaximumSize(QSize(16777215, 3))
+        self.progress_music.setMaximumSize(QSize(16777215, 7))
         self.progress_music.setStyleSheet(u"QProgressBar\n"
 "{\n"
 "    background: green;\n"
@@ -1099,7 +1099,7 @@ class Ui_Form(object):
 "}\n"
 "QProgressBar::chunk\n"
 "{\n"
-"   		\n"
+"     border-radius: 3px;\n"
 "	background-color: rgb(92, 155, 179);\n"
 "	border-top-left-radius:7px;\n"
 "	 border-bottom-left-radius:7px;\n"

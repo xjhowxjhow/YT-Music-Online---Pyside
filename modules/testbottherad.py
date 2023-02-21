@@ -19,7 +19,7 @@ from PySide2.QtCore import QMetaObject, Qt
 import requests
 from datetime import datetime
 from random import randint
-
+import queue
 
 class Thead_Player(QThread):
     data_received = Signal(dict)
@@ -29,18 +29,20 @@ class Thead_Player(QThread):
         self.audio = audio
         self.player = QMediaPlayer()
         self.player.positionChanged.connect(self.get_data_info)
-        self.player.durationChanged.connect(self.get_data_info)
+
 
 
 
     def run(self):
         try:
             self.play(self.audio)
+
+
+
         except Exception as e:
             print(e)
-            
-            self.handle_data(False)  # call handle_data function with False
-
+       
+    
     def status(self):
         return self.player.state()            
 
@@ -63,35 +65,43 @@ class Thead_Player(QThread):
         self.player.play()
         print('play')
         
+        
+    def volume(self, value):
+        print('volume:'+str(value))
+        self.player.setVolume(value)
 
-    def handle_data(self, data):
-        # Function to handle data received from the API
-        if data:
-            self.data_received.emit(data)
-        else:
-            self.data_received.emit(False)
-            print("Error request")
+    def progress(self, value):
+        # recebe em porcentagem
 
-    
-    def somavalor(self,n,n2):
-        print('sum:'+str(n)+'+'+str(n2))
-        return print(n+n2)
-    
+        # desconectar o sinal positionChanged temporariamente
+        self.player.positionChanged.disconnect(self.get_data_info)
+        # pega o tempo total do audio em milisegundos e multiplica pela porcentagem
+
+        value = (self.player.duration() / 1000) * value
+
+        self.player.setPosition(int(value))
+        self.player.positionChanged.connect(self.get_data_info)
+
 
     def get_data_info(self):
+        
         position = self.player.position()
         duration = self.player.duration()
-        if duration > 0:
-            remaining = duration - position
-            position_str = time.strftime('%H:%M:%S', time.gmtime(position / 1000))
-            remaining_str = time.strftime('%H:%M:%S', time.gmtime(remaining / 1000))
-            duration_str = time.strftime('%H:%M:%S', time.gmtime(duration / 1000))
-            percent_complete = int((position / duration) * 100)
-            data = {
-                'position': position_str,
-                'remaining': remaining_str,
-                'percent_complete': percent_complete,
-                'duration': duration_str
-            }
-            self.data_received.emit(data)
+
+        if position == duration:
+            print('finish')
+        else:
+            if duration > 0:
+                remaining = duration - position
+                position_str = time.strftime('%H:%M:%S', time.gmtime(position / 1000))
+                remaining_str = time.strftime('%H:%M:%S', time.gmtime(remaining / 1000))
+                duration_str = time.strftime('%H:%M:%S', time.gmtime(duration / 1000))
+                percent_complete = int((position / duration) * 100)
+                data = {
+                    'position': position_str,
+                    'remaining': remaining_str,
+                    'percent_complete': percent_complete,
+                    'duration': duration_str
+                }
+                self.data_received.emit(data)
 

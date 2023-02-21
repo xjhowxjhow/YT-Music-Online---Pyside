@@ -2176,7 +2176,7 @@ border-radius:0px;</string>
                             <property name="maximumSize">
                              <size>
                               <width>16777215</width>
-                              <height>3</height>
+                              <height>7</height>
                              </size>
                             </property>
                             <property name="styleSheet">
@@ -2193,7 +2193,7 @@ background-color:rgba(255,255,255,0);
 }
 QProgressBar::chunk
 {
-   		
+     border-radius: 3px;
 	background-color: rgb(92, 155, 179);
 	border-top-left-radius:7px;
 	 border-bottom-left-radius:7px;

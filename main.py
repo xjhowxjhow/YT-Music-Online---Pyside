@@ -43,6 +43,8 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         Effects.slide_content_ads(self)
         
 
+
+
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         #event filter
         self.togle.installEventFilter(self)
@@ -54,6 +56,7 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         self.lineEdit.installEventFilter(self)
         self.back_content.installEventFilter(self)
         self.back_buscar.installEventFilter(self)
+        self.progress_music.installEventFilter(self)
         #COLUNA URL
         self.tableWidget.setColumnHidden(0, True)
         self.tableWidget.setColumnHidden(6, True)
@@ -123,6 +126,10 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
             
             value = self.control_vol.value()
             funcoes.Volume(self,value)
+            return True
+        
+        if obj ==self.progress_music and event.type() == QtCore.QEvent.MouseButtonRelease:
+            funcoes.update_progress(self)
             return True
         
         return super(MainWindow,self).eventFilter(obj, event)
