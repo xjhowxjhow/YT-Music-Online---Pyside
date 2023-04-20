@@ -18,7 +18,7 @@ from PySide2.QtCore import QMetaObject, Qt
 import requests
 from datetime import datetime
 from random import randint
-from modules.testbottherad import Thead_Player
+from modules.Thead_Player import Thead_Player
 
 
 
