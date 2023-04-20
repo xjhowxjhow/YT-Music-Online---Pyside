@@ -902,16 +902,6 @@ class Ui_Form(object):
         self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         __qtablewidgetitem7 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(7, __qtablewidgetitem7)
-        if (self.tableWidget.rowCount() < 1):
-            self.tableWidget.setRowCount(1)
-        __qtablewidgetitem8 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(0, __qtablewidgetitem8)
-        __qtablewidgetitem9 = QTableWidgetItem()
-        self.tableWidget.setItem(0, 0, __qtablewidgetitem9)
-        __qtablewidgetitem10 = QTableWidgetItem()
-        self.tableWidget.setItem(0, 1, __qtablewidgetitem10)
-        __qtablewidgetitem11 = QTableWidgetItem()
-        self.tableWidget.setItem(0, 3, __qtablewidgetitem11)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setFont(font1)
         self.tableWidget.setFocusPolicy(Qt.NoFocus)
@@ -1086,6 +1076,7 @@ class Ui_Form(object):
         self.progress_music = QProgressBar(self.progress_frame_3)
         self.progress_music.setObjectName(u"progress_music")
         self.progress_music.setMaximumSize(QSize(16777215, 7))
+        self.progress_music.setCursor(QCursor(Qt.PointingHandCursor))
         self.progress_music.setStyleSheet(u"QProgressBar\n"
 "{\n"
 "    background: green;\n"
@@ -1382,19 +1373,6 @@ class Ui_Form(object):
         ___qtablewidgetitem5.setText(QCoreApplication.translate("Form", u"data", None));
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("Form", u"play", None));
-        ___qtablewidgetitem7 = self.tableWidget.verticalHeaderItem(0)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("Form", u"New Row", None));
-
-        __sortingEnabled = self.tableWidget.isSortingEnabled()
-        self.tableWidget.setSortingEnabled(False)
-        ___qtablewidgetitem8 = self.tableWidget.item(0, 0)
-        ___qtablewidgetitem8.setText(QCoreApplication.translate("Form", u"123", None));
-        ___qtablewidgetitem9 = self.tableWidget.item(0, 1)
-        ___qtablewidgetitem9.setText(QCoreApplication.translate("Form", u"12312", None));
-        ___qtablewidgetitem10 = self.tableWidget.item(0, 3)
-        ___qtablewidgetitem10.setText(QCoreApplication.translate("Form", u"3123123", None));
-        self.tableWidget.setSortingEnabled(__sortingEnabled)
-
         self.back_buscar.setText("")
         self.title_page2.setText("")
         self.video_label.setText("")

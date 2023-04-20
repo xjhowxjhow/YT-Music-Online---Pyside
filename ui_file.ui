@@ -1791,11 +1791,6 @@ QHeaderView::section { background-color: rgb(53, 53, 53); border:none; width:45p
                                 <attribute name="verticalHeaderStretchLastSection">
                                  <bool>false</bool>
                                 </attribute>
-                                <row>
-                                 <property name="text">
-                                  <string>New Row</string>
-                                 </property>
-                                </row>
                                 <column>
                                  <property name="text">
                                   <string>url</string>
@@ -1836,21 +1831,6 @@ QHeaderView::section { background-color: rgb(53, 53, 53); border:none; width:45p
                                   <string/>
                                  </property>
                                 </column>
-                                <item row="0" column="0">
-                                 <property name="text">
-                                  <string>123</string>
-                                 </property>
-                                </item>
-                                <item row="0" column="1">
-                                 <property name="text">
-                                  <string>12312</string>
-                                 </property>
-                                </item>
-                                <item row="0" column="3">
-                                 <property name="text">
-                                  <string>3123123</string>
-                                 </property>
-                                </item>
                                </widget>
                               </item>
                              </layout>
@@ -2178,6 +2158,9 @@ border-radius:0px;</string>
                               <width>16777215</width>
                               <height>7</height>
                              </size>
+                            </property>
+                            <property name="cursor">
+                             <cursorShape>PointingHandCursor</cursorShape>
                             </property>
                             <property name="styleSheet">
                              <string notr="true">QProgressBar
