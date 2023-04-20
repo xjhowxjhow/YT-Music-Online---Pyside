@@ -221,6 +221,7 @@ class funcoes(Ui_Form):
         mouse_position = self.progress_music.mapFromGlobal(self.cursor().pos())
         progress_width = self.progress_music.width()
         progress_value = int(mouse_position.x() / progress_width * 100)
+        print(progress_value)
         self.progress_music.releaseMouse()
         self.start_player.progress(progress_value)
 

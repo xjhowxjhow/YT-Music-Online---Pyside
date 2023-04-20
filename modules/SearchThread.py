@@ -52,7 +52,7 @@ class SearchThread(QThread):
                 'published_time': video['publishedTime']
             }
             search_results.append(result)
-
+        
         self.search_results.emit(search_results)
 
 

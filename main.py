@@ -120,14 +120,13 @@ class MainWindow (Ui_Form,QtWidgets.QWidget):
         if obj == self.stop_music and event.type() == QtCore.QEvent.MouseButtonPress:
             funcoes.stop_music(self)
             return True
-        
         #volume event slider sroll  
         if obj == self.control_vol and event.type() == QtCore.QEvent.MouseButtonRelease or event.type() == QtCore.QEvent.Scroll:
             
             value = self.control_vol.value()
             funcoes.Volume(self,value)
             return True
-        
+
         if obj ==self.progress_music and event.type() == QtCore.QEvent.MouseButtonRelease:
             funcoes.update_progress(self)
             return True
