@@ -42,32 +42,19 @@ class LoadImageRunnable(QRunnable):
         pixmap = self.load_image(self.url)
         return self.callback(pixmap)
 
-    
     def load_image(self, url):
         data = urllib.request.urlopen(url).read()
         pixmap = QPixmap()
         pixmap.loadFromData(data)
         return pixmap
-    
-
-    
 
 
-
-
-
-
-
-
-    
-    
 class funcoes(Ui_Form):
-
-
 
     def get_data_search(self, search):
         self.thread = SearchThread(search)
-        self.thread.search_results.connect(lambda data:  funcoes.handle_search_results(self, data))
+        self.thread.search_results.connect(
+            lambda data:  funcoes.handle_search_results(self, data))
         self.thread.start()
 
     def handle_search_results(self, search_results):
@@ -85,37 +72,37 @@ class funcoes(Ui_Form):
             self.tableWidget.setCellWidget(i, 1, thumbnail_button)
 
             thumbnail_button.setObjectName(f"thumbnail_{i}")
-            thumbnail_button.setStyleSheet("background-color: transparent; border: none;")
+            thumbnail_button.setStyleSheet(
+                "background-color: transparent; border: none;")
             # threadpool para baixar imagem em paralelo e nao travar a interface
-            # para entendimento o lambda é uma função anonima que recebe o pixmap e o button e seta o icon do button com o pixmap retornado 
-            #apartir do : é o retorno da função anonima antes do : é o que a função recebe como parametro 
-            #exmplo pratico:
-            #soma = lambda x, y: x + y
-            #resultado = soma(2, 3)  # resultado é 5
-            
-            load_image_runnable = LoadImageRunnable(result['thumbnail'], lambda pixmap, button=thumbnail_button: button.setIcon(pixmap))
-            threadpool.start(load_image_runnable)
+            # para entendimento o lambda é uma função anonima que recebe o pixmap e o button e seta o icon do button com o pixmap retornado
+            # apartir do : é o retorno da função anonima antes do : é o que a função recebe como parametro
+            # exmplo pratico:
+            # soma = lambda x, y: x + y
+            # resultado = soma(2, 3)  # resultado é 5
 
+            load_image_runnable = LoadImageRunnable(
+                result['thumbnail'], lambda pixmap, button=thumbnail_button: button.setIcon(pixmap))
+            threadpool.start(load_image_runnable)
 
             # self.thumbnail_button.setIcon(QIcon(result['thumbnail']))
 
             self.tableWidget.setItem(i, 2, QTableWidgetItem(result['title']))
-            self.tableWidget.item(i, 2).setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)
-            self.tableWidget.setItem(i, 3, QTableWidgetItem(result['duration']))
-            self.tableWidget.setItem(i, 4, QTableWidgetItem(result['view_count']))
-            self.tableWidget.setItem(i, 5, QTableWidgetItem(result['published_time']))
+            self.tableWidget.item(i, 2).setFlags(
+                Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            self.tableWidget.setItem(
+                i, 3, QTableWidgetItem(result['duration']))
+            self.tableWidget.setItem(
+                i, 4, QTableWidgetItem(result['view_count']))
+            self.tableWidget.setItem(
+                i, 5, QTableWidgetItem(result['published_time']))
             # align center
             self.tableWidget.item(i, 3).setTextAlignment(Qt.AlignCenter)
             self.tableWidget.item(i, 4).setTextAlignment(Qt.AlignCenter)
             self.tableWidget.item(i, 5).setTextAlignment(Qt.AlignCenter)
 
-
-
-
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
-    
-    
     def search_and_play(self, url):
         directory = os.path.dirname(os.path.realpath(__file__))
         folder = directory + '\downloads\\'
@@ -184,16 +171,16 @@ class funcoes(Ui_Form):
             CURRENT_PATCH = patch
             print(CURRENT_PATCH, "novo patch")
             funcoes._Delete_Files(self)
-            #Start player
+            # Start player
             self.adss.setCurrentWidget(self.page_video_img)
-            return funcoes.start_thread(self,patch)
+            return funcoes.start_thread(self, patch)
 
-
-    def start_thread(self,patch):
+    def start_thread(self, patch):
         self.start_player = Thead_Player(patch)
         self.start_player.start()
-        self.start_player.data_received.connect(lambda data: funcoes.Update_Ui(self,data))
-        
+        self.start_player.data_received.connect(
+            lambda data: funcoes.Update_Ui(self, data))
+
     def stop_music(self):
         self.start_player.stop()
 
@@ -209,8 +196,7 @@ class funcoes(Ui_Form):
             self.pause_music.setIcon(QIcon(':/btn/image/pause.png'))
             PAUSE = False
 
-
-    def Volume(self,value):
+    def Volume(self, value):
         try:
             self.start_player.volume(value)
         except Exception as e:
@@ -226,10 +212,11 @@ class funcoes(Ui_Form):
         self.start_player.progress(progress_value)
 
     def _Delete_Files(self):
-        
+
         def thead(self):
-            _folder_ = os.path.dirname(os.path.realpath(__file__)) + '\downloads\\'
-    
+            _folder_ = os.path.dirname(
+                os.path.realpath(__file__)) + '\downloads\\'
+
             for file in os.listdir(_folder_):
                 if file.endswith(".mp3"):
                     if _folder_ + file == CURRENT_PATCH:
@@ -241,13 +228,11 @@ class funcoes(Ui_Form):
                             pass
                 else:
                     pass
-        thread = threading.Thread(target=thead , args=(self,) ,name='thread_delet',daemon=True)
+        thread = threading.Thread(target=thead, args=(
+            self,), name='thread_delet', daemon=True)
         thread.start()
-        
 
-
-
-    def Update_Ui(self,data):
+    def Update_Ui(self, data):
         print(data)
         start = data['position']
         remaining = data['remaining']
