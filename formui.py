@@ -1096,7 +1096,7 @@ class Ui_Form(object):
 "	 border-bottom-left-radius:7px;\n"
 "\n"
 "}")
-        self.progress_music.setValue(24)
+        self.progress_music.setValue(0)
         self.progress_music.setTextVisible(False)
 
         self.horizontalLayout_12.addWidget(self.progress_music)
