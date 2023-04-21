@@ -40,10 +40,10 @@ color:rgb(255,255,255);</string>
       <string notr="true"/>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Plain</enum>
      </property>
      <property name="currentIndex">
       <number>1</number>
@@ -1329,7 +1329,7 @@ border-bottom: 1px solid rgb(0, 188, 242);
                        <enum>QFrame::Raised</enum>
                       </property>
                       <property name="currentIndex">
-                       <number>1</number>
+                       <number>0</number>
                       </property>
                       <widget class="QWidget" name="adssPage1">
                        <layout class="QHBoxLayout" name="horizontalLayout_6">
