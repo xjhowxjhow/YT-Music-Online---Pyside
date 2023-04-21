@@ -106,7 +106,8 @@ class funcoes(Ui_Form):
     def search_and_play(self, url):
         directory = os.path.dirname(os.path.realpath(__file__))
         folder = directory + '\downloads\\'
-        outtmpl = folder + '\%(title)s' + '.mp3'
+        rand = str(randint(0,99999))
+        outtmpl = folder +rand  +'.mp3'
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': outtmpl,
@@ -140,7 +141,7 @@ class funcoes(Ui_Form):
             self.title_page2.setText(video_title)
             # Invert bar
             video_title = video_title.replace('/', '\\')
-            video_title = video_title + '.mp3'
+            video_title = rand + '.mp3'
             print(video_title)
 
             # Play file \
