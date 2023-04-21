@@ -1,14 +1,18 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'ui_file.ui'
+##
+## Created by: Qt User Interface Compiler version 5.15.2
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from modules.custom_qstacked_widgets import *
 
-import sources
-
-
-
-
-
+import qrc_rc
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -1335,7 +1339,7 @@ class Ui_Form(object):
         self.retranslateUi(Form)
 
         self.stackedWidget.setCurrentIndex(1)
-        self.adss.setCurrentIndex(0)
+        self.adss.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(Form)

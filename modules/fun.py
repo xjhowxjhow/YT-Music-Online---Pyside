@@ -104,10 +104,14 @@ class funcoes(Ui_Form):
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
     def search_and_play(self, url):
+        global STATUS_PLAYER
+        global CURRENT_PATCH
+
         directory = os.path.dirname(os.path.realpath(__file__))
-        folder = directory + '\downloads\\'
-        rand = str(randint(0,99999))
-        outtmpl = folder +rand  +'.mp3'
+        folder = os.path.join(directory, 'downloads')
+        rand = str(randint(0, 99999))
+        outtmpl = os.path.join(folder, rand + '.mp3')
+
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': outtmpl,
@@ -126,53 +130,35 @@ class funcoes(Ui_Form):
 
             # Get thumbnail
             info_dict = ydl.extract_info(url, download=False)
-            thumbnail = info_dict.get('thumbnail', None)
-            pix_map = QPixmap()
-            pix_map.loadFromData(requests.get(thumbnail).content)
-            self.video_label.setPixmap(pix_map)
-            self.video_label.setScaledContents(True)
+            thumbnail = info_dict.get('thumbnail')
+            if thumbnail:
+                response = requests.get(thumbnail)
+                if response.ok:
+                    pix_map = QPixmap()
+                    pix_map.loadFromData(response.content)
+                    self.video_label.setPixmap(pix_map)
+                    self.video_label.setScaledContents(True)
 
-            # Get file name
-            info_dict = ydl.extract_info(url, download=False)
-            # Get duration
-            duration = info_dict.get('duration', None)
-            video_title = info_dict.get('title', None)
+            # Get file name and duration
+            video_title = info_dict.get('title')
             self.set_titulo.setText(video_title)
             self.title_page2.setText(video_title)
-            # Invert bar
-            video_title = video_title.replace('/', '\\')
-            video_title = rand + '.mp3'
-            print(video_title)
+            
+            # Play file
+            patch = os.path.join(folder, rand + '.mp3')
 
-            # Play file \
-            patch = folder + video_title
-            global CURRENT_PATCH
-            global STATUS_PLAYER
-            print(CURRENT_PATCH, "CURRENT_PATCH")
-            if STATUS_PLAYER == True:
-                print("status ta ativo vamo parar")
-                # stop thread
-
-                # stop player
-
+            if STATUS_PLAYER:
                 self.player.stop()
-
                 self.clok_resta_.setText("00:00:00")
                 self.clok_start.setText("00:00:00")
                 self.progress_music.setValue(0)
-
-                if CURRENT_PATCH == '' or CURRENT_PATCH == None:
-                    pass
-                else:
-                    pass
-                    # remove file in player
+                if CURRENT_PATCH:
+                    os.remove(CURRENT_PATCH)
 
                 STATUS_PLAYER = False
 
             CURRENT_PATCH = patch
-            print(CURRENT_PATCH, "novo patch")
             funcoes._Delete_Files(self)
-            # Start player
             self.adss.setCurrentWidget(self.page_video_img)
             return funcoes.start_thread(self, patch)
 
