@@ -464,119 +464,6 @@ class Ui_Form(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.toptools = QFrame(self.content)
-        self.toptools.setObjectName(u"toptools")
-        self.toptools.setMaximumSize(QSize(16777215, 35))
-        self.toptools.setStyleSheet(u"background-image: url();\n"
-"border:0px;\n"
-"background-color: rgba(0, 0, 0,0);\n"
-"")
-        self.toptools.setFrameShape(QFrame.StyledPanel)
-        self.toptools.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_4 = QHBoxLayout(self.toptools)
-        self.horizontalLayout_4.setSpacing(0)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.horizontalSpacer = QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_4.addItem(self.horizontalSpacer)
-
-        self.minimize = QPushButton(self.toptools)
-        self.minimize.setObjectName(u"minimize")
-        self.minimize.setMinimumSize(QSize(40, 40))
-        self.minimize.setStyleSheet(u"\n"
-"\n"
-"QPushButton{\n"
-"	\n"
-"\n"
-"	background-image: url(:/fundo/minimize.png);\n"
-"	color: rgb(255, 255, 255);\n"
-"	background-color: rgba(0, 0, 0, 0); \n"
-"	 text-align: left;\n"
-"\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"	\n"
-"	\n"
-"background-color: rgba(0, 0, 0, 40); \n"
-"\n"
-"}\n"
-"\n"
-"QPushButton:pressed{\n"
-"	\n"
-"	background-image: url(:/fundo/minimize clik.png);\n"
-"background-color: rgba(0, 0, 0, 75); \n"
-"\n"
-"}")
-
-        self.horizontalLayout_4.addWidget(self.minimize)
-
-        self.maxmize = QPushButton(self.toptools)
-        self.maxmize.setObjectName(u"maxmize")
-        self.maxmize.setMinimumSize(QSize(40, 40))
-        self.maxmize.setStyleSheet(u"\n"
-"\n"
-"QPushButton{\n"
-"	\n"
-"\n"
-"	background-image: url(:/fundo/max 1.png);\n"
-"	color: rgb(255, 255, 255);\n"
-"	background-color: rgba(0, 0, 0, 0); \n"
-"	 text-align: left;\n"
-"\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"	\n"
-"	\n"
-"background-color: rgba(0, 0, 0, 40); \n"
-"\n"
-"}\n"
-"\n"
-"QPushButton:pressed{\n"
-"	\n"
-"	background-image: url(:/fundo/max_ click.png);\n"
-"background-color: rgba(0, 0, 0, 75); \n"
-"\n"
-"}")
-
-        self.horizontalLayout_4.addWidget(self.maxmize)
-
-        self.exit = QPushButton(self.toptools)
-        self.exit.setObjectName(u"exit")
-        self.exit.setMinimumSize(QSize(40, 40))
-        self.exit.setStyleSheet(u"\n"
-"\n"
-"QPushButton{\n"
-"	\n"
-"\n"
-"	background-image: url(:/fundo/close.png);\n"
-"	color: rgb(255, 255, 255);\n"
-"	background-color: rgba(0, 0, 0, 0); \n"
-"	 text-align: left;\n"
-"\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"	\n"
-"	\n"
-"background-color: rgba(0, 0, 0, 40); \n"
-"\n"
-"}\n"
-"\n"
-"QPushButton:pressed{\n"
-"	\n"
-"	background-image: url(:/fundo/close clik.png);\n"
-"background-color: rgba(0, 0, 0, 75); \n"
-"\n"
-"}")
-
-        self.horizontalLayout_4.addWidget(self.exit)
-
-
-        self.verticalLayout_2.addWidget(self.toptools)
-
         self.contets = QStackedWidget(self.content)
         self.contets.setObjectName(u"contets")
         self.contets.setStyleSheet(u"background-image: url();\n"
@@ -1351,9 +1238,6 @@ class Ui_Form(object):
         self.mix.setText(QCoreApplication.translate("Form", u"Mix", None))
         self.preferencias.setText(QCoreApplication.translate("Form", u"Preferencias", None))
         self.devbtn.setText(QCoreApplication.translate("Form", u"Atualiza\u00e7\u00f5es", None))
-        self.minimize.setText("")
-        self.maxmize.setText("")
-        self.exit.setText("")
         self.pushButton.setText(QCoreApplication.translate("Form", u"Playing", None))
         self.pushButton_9.setText(QCoreApplication.translate("Form", u"Conteudo", None))
         self.back_content.setText("")
