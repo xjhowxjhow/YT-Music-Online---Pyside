@@ -1,25 +1,4 @@
-from yt_dlp import *
-import os
-import psutil
-import sys
-from PySide2.QtCore import *
-from PySide2 import QtWidgets
-from PySide2 import QtCore
-from PySide2 import QtGui
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-from formui import Ui_Form
-from youtubesearchpython import VideosSearch
-from PySide2.QtMultimedia import QMediaPlayer, QMediaContent
-import urllib.request
-import threading
-import time
-from PySide2.QtCore import QMetaObject, Qt
-import requests
-from datetime import datetime
-from random import randint
-from modules.Thead_Player import Thead_Player
-
+from core import *
 
 
 
