@@ -5,11 +5,6 @@ from modules.custom_qstacked_widgets import *
 
 import sources
 
-
-
-
-
-
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():

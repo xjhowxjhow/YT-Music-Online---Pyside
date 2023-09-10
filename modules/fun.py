@@ -44,40 +44,29 @@ class funcoes(Ui_Form):
         self.tableWidget.setRowCount(0)
 
         for i, result in enumerate(search_results):
-            # print thumbnail
+
             print(result['thumbnail'])
             self.tableWidget.insertRow(i)
             self.tableWidget.setItem(i, 0, QTableWidgetItem(result['link']))
-            #  sem self para ser unico
+
             thumbnail_button = QPushButton()
             thumbnail_button.setIconSize(QSize(100, 100))
             self.tableWidget.setCellWidget(i, 1, thumbnail_button)
 
             thumbnail_button.setObjectName(f"thumbnail_{i}")
-            thumbnail_button.setStyleSheet(
-                "background-color: transparent; border: none;")
-            # threadpool para baixar imagem em paralelo e nao travar a interface
-            # para entendimento o lambda é uma função anonima que recebe o pixmap e o button e seta o icon do button com o pixmap retornado
-            # apartir do : é o retorno da função anonima antes do : é o que a função recebe como parametro
-            # exmplo pratico:
-            # soma = lambda x, y: x + y
-            # resultado = soma(2, 3)  # resultado é 5
+            thumbnail_button.setStyleSheet("background-color: transparent; border: none;")
 
-            load_image_runnable = LoadImageRunnable(
-                result['thumbnail'], lambda pixmap, button=thumbnail_button: button.setIcon(pixmap))
+
+            load_image_runnable = LoadImageRunnable(result['thumbnail'], lambda pixmap, button=thumbnail_button: button.setIcon(pixmap))
             threadpool.start(load_image_runnable)
 
-            # self.thumbnail_button.setIcon(QIcon(result['thumbnail']))
+
 
             self.tableWidget.setItem(i, 2, QTableWidgetItem(result['title']))
-            self.tableWidget.item(i, 2).setFlags(
-                Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            self.tableWidget.setItem(
-                i, 3, QTableWidgetItem(result['duration']))
-            self.tableWidget.setItem(
-                i, 4, QTableWidgetItem(result['view_count']))
-            self.tableWidget.setItem(
-                i, 5, QTableWidgetItem(result['published_time']))
+            self.tableWidget.item(i, 2).setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            self.tableWidget.setItem(i, 3, QTableWidgetItem(result['duration']))
+            self.tableWidget.setItem(i, 4, QTableWidgetItem(result['view_count']))
+            self.tableWidget.setItem(i, 5, QTableWidgetItem(result['published_time']))
             # align center
             self.tableWidget.item(i, 3).setTextAlignment(Qt.AlignCenter)
             self.tableWidget.item(i, 4).setTextAlignment(Qt.AlignCenter)
@@ -147,8 +136,7 @@ class funcoes(Ui_Form):
     def start_thread(self, patch):
         self.start_player = Thead_Player(patch)
         self.start_player.start()
-        self.start_player.data_received.connect(
-            lambda data: funcoes.Update_Ui(self, data))
+        self.start_player.data_received.connect(lambda data: funcoes.Update_Ui(self, data))
 
     def stop_music(self):
         self.start_player.stop()
