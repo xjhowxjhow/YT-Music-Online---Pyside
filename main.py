@@ -1,6 +1,6 @@
 
 from core import *
-from formui import Ui_Form
+from ui.formui import Ui_Form
 from modules.fun import *
 from modules.effects import * 
 
