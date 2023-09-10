@@ -15,13 +15,9 @@ class Thead_Player(QThread):
     def run(self):
         try:
             self.play(self.audio)
-
-
-
         except Exception as e:
             print(e)
-       
-    
+            
     def status(self):
         return self.player.state()            
 
@@ -50,24 +46,19 @@ class Thead_Player(QThread):
         self.player.setVolume(value)
 
     def progress(self, value):
-        print('-----UPDATE PROGRESS-----')
-        # recebe em porcentagem
-        print('progressao recebido em porcentagem: '+str(value) + '%')
-        # desconectar o sinal positionChanged temporariamente
-        #self.player.positionChanged.disconnect(self.get_data_info)
-        # pega o tempo total do audio em milisegundos e multiplica pela porcentagem
-
         value = (value / 100) * self.player.duration()
-        print('progressao em milisegundos: '+str(value))
-       
+        self.player.setPosition(int(value))
+        
+
+
+    def monitor(self):
+        print('-----UPDATE PROGRESS-----')
         print('tempo atual: '+str(self.player.position()) + 'ms')
         print('tempo total: '+str(self.player.duration()) + 'ms')
-        
-        self.player.setPosition(int(value))
         print('nova posicao: '+str(self.player.position()) + 'ms')
-        #self.player.positionChanged.connect(self.get_data_info)
         print('-------------------------')
-
+        
+        
     def get_data_info(self):
         
         position = self.player.position()

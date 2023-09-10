@@ -53,7 +53,7 @@ class MainWindow (Ui_Form,QWidget):
         
     def eventFilter(self, obj, event):
         if obj == self.togle and event.type() == QEvent.MouseButtonPress:
-            return Effects.togle_resize(self)
+            return Effects.toggle_resize(self)
          
         if obj == self.back_content and event.type() == QEvent.MouseButtonPress:
             
@@ -117,12 +117,7 @@ class MainWindow (Ui_Form,QWidget):
         
         return super(MainWindow,self).eventFilter(obj, event)
 
-        
 
-        
-        
-        
-        
 if __name__ == '__main__':
     os.environ['QT_MULTIMEDIA_PREFERRED_PLUGINS'] = 'windowsmediafoundation'
     app =QApplication(sys.argv)
