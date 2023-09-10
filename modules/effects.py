@@ -10,7 +10,7 @@ class Effects (Ui_Form):
         self.adss.setTransitionEasingCurve(QEasingCurve.InOutExpo)
         self.adss.setSlideTransition(True)
 
-    def togle_resize(self):
+    def toggle_resize(self):
         global GLOBAL_TOGLE
         if GLOBAL_TOGLE == False:
             self.animation = QPropertyAnimation(self.menu, b"minimumWidth")
